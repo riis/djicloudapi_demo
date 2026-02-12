@@ -1,6 +1,5 @@
 package com.dji.sdk.config.version;
 
-import com.dji.sdk.exception.CloudSDKVersionException;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +23,8 @@ public enum DroneThingVersionEnum implements IThingVersion {
     V1_1_3("1.1.3", CloudSDKVersionEnum.V1_0_2),
 
     V1_2_0("1.2.0", CloudSDKVersionEnum.V1_0_3),
+
+    V1_3_1("1.3.1", CloudSDKVersionEnum.V1_3_1),
 
     ;
 
@@ -53,6 +54,9 @@ public enum DroneThingVersionEnum implements IThingVersion {
         if (opt.isPresent()) {
             return opt.get();
         }
-        throw new CloudSDKVersionException(thingVersion);
+        // Fallback to latest version for backward compatibility
+        log.warn("Unknown drone thing version: {}, falling back to latest supported version ({})", 
+                thingVersion, V1_3_1.getThingVersion());
+        return V1_3_1;
     }
 }

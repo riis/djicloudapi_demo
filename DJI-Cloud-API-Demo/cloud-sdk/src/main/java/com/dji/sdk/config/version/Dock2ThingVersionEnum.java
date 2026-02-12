@@ -1,6 +1,5 @@
 package com.dji.sdk.config.version;
 
-import com.dji.sdk.exception.CloudSDKVersionException;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Arrays;
@@ -38,6 +37,6 @@ public enum Dock2ThingVersionEnum implements IThingVersion {
 
     public static Dock2ThingVersionEnum find(String thingVersion) {
         return Arrays.stream(values()).filter(thingVersionEnum -> thingVersionEnum.thingVersion.equals(thingVersion))
-                .findAny().orElseThrow(() -> new CloudSDKVersionException(thingVersion));
+                .findAny().orElse(V1_2_0); // Fallback to latest supported version
     }
 }
