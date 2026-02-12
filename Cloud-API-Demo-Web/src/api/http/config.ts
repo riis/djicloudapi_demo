@@ -24,12 +24,14 @@ function resolveWebsocketURL (): string {
   return `${wsScheme}://${loc.host}/api/v1/ws`
 }
 
+console.log('APP ID: ' + import.meta.env.VITE_DJI_CLOUD_API_APP_ID)
+
 export const CURRENT_CONFIG = {
 
   // license
-  appId: '', // You need to go to the development website to apply.
-  appKey: '', // You need to go to the development website to apply.
-  appLicense: '', // You need to go to the development website to apply.
+  appId: `${import.meta.env.VITE_DJI_CLOUD_API_APP_ID}`, // You need to go to the development website to apply.
+  appKey: `${import.meta.env.VITE_DJI_CLOUD_API_APP_KEY}`, // You need to go to the development website to apply.
+  appLicense: `${import.meta.env.VITE_DJI_CLOUD_API_APP_LICENSE}`, // You need to go to the development website to apply.
 
   // http
   baseURL: resolveHttpBaseURL(), // Prefer same-origin in dev to avoid CORS (use Vite proxy)
