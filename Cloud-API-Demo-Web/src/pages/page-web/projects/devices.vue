@@ -31,7 +31,7 @@
             <span>{{ text }}</span>
         </a-tooltip>
       </template>
-      <!-- 固件版本 -->
+      <!-- Firmware Version -->
       <template #firmware_version="{ record }">
         <span v-if="judgeCurrentType(EDeviceTypeName.Dock)">
           <DeviceFirmwareUpgrade :device="record"
@@ -43,7 +43,7 @@
           {{ record.firmware_version }}
         </span>
       </template>
-      <!-- 状态 -->
+      <!-- Status -->
       <template #status="{ text }">
         <span v-if="text" class="flex-row flex-align-center">
             <span class="mr5" style="width: 12px; height: 12px; border-radius: 50%; background-color: green;" />
@@ -54,10 +54,10 @@
             <span>Offline</span>
         </span>
       </template>
-      <!-- 操作 -->
+      <!-- Actions -->
       <template #action="{ record }">
         <div class="editable-row-operations">
-          <!-- 编辑态操作 -->
+          <!-- Edit Mode Actions -->
           <div v-if="editableData[record.device_sn]">
             <a-tooltip title="Confirm changes">
               <span @click="save(record)" style="color: #28d445;"><CheckOutlined /></span>
@@ -66,9 +66,9 @@
               <span @click="() => delete editableData[record.device_sn]" style="color: #e70102;"><CloseOutlined /></span>
             </a-tooltip>
           </div>
-          <!-- 非编辑态操作 -->
+          <!-- Non-Edit Mode Actions -->
           <div v-else class="flex-align-center flex-row" style="color: #2d8cf0">
-            <a-tooltip v-if="current.indexOf(EDeviceTypeName.Dock) !== -1" title="设备日志">
+            <a-tooltip v-if="current.indexOf(EDeviceTypeName.Dock) !== -1" title="Device Log">
               <CloudServerOutlined @click="showDeviceLogUploadRecord(record)"/>
             </a-tooltip>
             <a-tooltip v-if="current.indexOf(EDeviceTypeName.Dock) !== -1" title="Hms Info">
@@ -94,20 +94,20 @@
         </template>
     </a-modal>
 
-    <!-- 设备升级 -->
+    <!-- Device Upgrade -->
     <DeviceFirmwareUpgradeModal title="设备升级"
       v-model:visible="deviceFirmwareUpgradeModalVisible"
       :device="selectedDevice"
       @ok="onUpgradeDeviceOk"
     ></DeviceFirmwareUpgradeModal>
 
-    <!-- 设备日志上传记录 -->
+    <!-- Device Log Upload Records -->
     <DeviceLogUploadRecordDrawer
       v-model:visible="deviceLogUploadRecordVisible"
       :device="currentDevice"
     ></DeviceLogUploadRecordDrawer>
 
-    <!-- hms 信息 -->
+    <!-- HMS Info -->
     <DeviceHmsDrawer
        v-model:visible="hmsVisible"
       :device="currentDevice">
@@ -218,7 +218,7 @@ const paginationProp = reactive({
   total: 0
 })
 
-// 获取分页信息
+// Get pagination info
 function getPaginationBody () {
   return {
     page: paginationProp.current,
@@ -251,7 +251,7 @@ function judgeCurrentType (type: EDeviceTypeName): boolean {
   return current.value.indexOf(type) !== -1
 }
 
-// 设备升级
+// Device upgrade
 const {
   deviceFirmwareUpgradeModalVisible,
   selectedDevice,
@@ -271,11 +271,11 @@ function updateDevicesByWs (devices: Device[], payload: DeviceCmdExecuteInfo) {
     if (devices[i].device_sn === payload.sn) {
       if (!payload.output) return
       const { status, progress, ext } = payload.output
-      if (status === DeviceCmdExecuteStatus.Sent || status === DeviceCmdExecuteStatus.InProgress) { // 升级中
+      if (status === DeviceCmdExecuteStatus.Sent || status === DeviceCmdExecuteStatus.InProgress) { // Upgrading
         const rate = ext?.rate ? (ext.rate / 1024).toFixed(2) + 'kb/s' : ''
         devices[i].firmware_status = DeviceFirmwareStatusEnum.DuringUpgrade
         devices[i].firmware_progress = (progress?.percent || 0) + '% ' + rate
-      } else { // 终态：成功，失败，超时
+      } else { // Final state: success, failure, timeout
         if (status === DeviceCmdExecuteStatus.Failed || status === DeviceCmdExecuteStatus.Timeout) {
           notification.error({
             message: `(${payload.sn}) Upgrade failed`,
@@ -283,7 +283,7 @@ function updateDevicesByWs (devices: Device[], payload: DeviceCmdExecuteInfo) {
             duration: null
           })
         }
-        // 拉取列表
+        // Fetch list
         getDevices(current.value[0], true)
       }
       return
@@ -296,7 +296,7 @@ function updateDevicesByWs (devices: Device[], payload: DeviceCmdExecuteInfo) {
 
 useDeviceUpgradeEvent(onDeviceUpgradeWs)
 
-// 获取设备列表信息
+// Get device list info
 function getDevices (domain: number, closeLoading?: boolean) {
   if (!closeLoading) {
     loading.value = true
@@ -329,23 +329,23 @@ function refreshData (page: Pagination) {
   getDevices(current.value[0])
 }
 
-// 编辑
+// Edit
 function edit (record: Device) {
   editableData[record.device_sn] = record
 }
 
-// 保存
+// Save
 function save (record: Device) {
   delete editableData[record.device_sn]
   updateDevice({ nickname: record.nickname }, workspaceId, record.device_sn)
 }
 
-// 删除
+// Delete
 function showDeleteTip (sn: any) {
   deleteTip.value = true
 }
 
-// 解绑
+// Unbind
 function unbind () {
   deleteTip.value = false
   unbindDevice(deleteSn.value?.toString()!).then(res => {
@@ -356,20 +356,20 @@ function unbind () {
   })
 }
 
-// 选择设备
+// Select device
 function select (item: any) {
   getDevices(item.key)
 }
 
 const currentDevice = ref({} as Device)
-// 设备日志
+// Device log
 const deviceLogUploadRecordVisible = ref(false)
 function showDeviceLogUploadRecord (dock: Device) {
   deviceLogUploadRecordVisible.value = true
   currentDevice.value = dock
 }
 
-// 健康状态
+// Health status
 const hmsVisible = ref<boolean>(false)
 
 function showHms (dock: Device) {
