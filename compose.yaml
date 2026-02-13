@@ -81,7 +81,22 @@ services:
     volumes:
       - redis_data:/data
 
+  minio:
+    image: quay.io/minio/minio:RELEASE.2022-02-18T01-50-10Z
+    volumes:
+      - minio_data:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: 'minioadmin'
+      MINIO_ROOT_PASSWORD: 'minioadmin'
+      MINIO_ADDRESS: ':9000'
+      MINIO_CONSOLE_ADDRESS: ':9001'
+    command: minio server /data
+
 volumes:
   emqx_data:
   mysql_data:
   redis_data:
+  minio_data:

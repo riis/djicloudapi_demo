@@ -85,19 +85,19 @@ url:
     prefix: control
     version: /api/v1
 
-# Tutorial: https://www.alibabacloud.com/help/en/object-storage-service/latest/use-a-temporary-credential-provided-by-sts-to-access-oss
-oss:
-  enable: false
-  provider: ALIYUN # @see com.dji.sample.component.OssConfiguration.model.enums.OssTypeEnum
-  endpoint: https://oss-cn-hangzhou.aliyuncs.com
-  access-key: Please enter your access key.
-  secret-key: Please enter your secret key.
-  expire: 3600
-  region: Please enter your oss region. # cn-hangzhou
-  role-session-name: cloudApi
-  role-arn: Please enter your role arn. # acs:ram::123456789:role/stsrole
-  bucket: Please enter your bucket name.
-  object-dir-prefix: Please enter a folder name.
+# # Tutorial: https://www.alibabacloud.com/help/en/object-storage-service/latest/use-a-temporary-credential-provided-by-sts-to-access-oss
+# oss:
+#   enable: false
+#   provider: ALIYUN # @see com.dji.sample.component.OssConfiguration.model.enums.OssTypeEnum
+#   endpoint: https://oss-cn-hangzhou.aliyuncs.com
+#   access-key: Please enter your access key.
+#   secret-key: Please enter your secret key.
+#   expire: 3600
+#   region: Please enter your oss region. # cn-hangzhou
+#   role-session-name: cloudApi
+#   role-arn: Please enter your role arn. # acs:ram::123456789:role/stsrole
+#   bucket: Please enter your bucket name.
+#   object-dir-prefix: Please enter a folder name.
 
 #oss:
 #  enable: true
@@ -112,16 +112,16 @@ oss:
 #  bucket: cloudapi-bucket
 #  object-dir-prefix: wayline
 
-#oss:
-#  enable: true
-#  provider: minio
-#  endpoint: http://192.168.1.1:9000
-#  access-key: minioadmin
-#  secret-key: minioadmin
-#  bucket: cloud-bucket
-#  expire: 3600
-#  region: us-east-1
-#  object-dir-prefix: wayline
+oss:
+ enable: true
+ provider: minio
+ endpoint: http://minio:9000
+ access-key: minioadmin
+ secret-key: minioadmin
+ bucket: cloud-bucket
+ expire: 3600
+ region: us-east-1
+ object-dir-prefix: wayline
 
 logging:
   level:
