@@ -1,43 +1,40 @@
-// 夜航灯开关
+// Night lights switch
 export enum NightLightsStateEnum {
-  CLOSE = 0, // 0-关闭
-  // Night navigation light switch
-  OPEN = 1, // 1-打开
+  CLOSE = 0, // 0-Close
+  OPEN = 1, // 1-Open
 }
 
-// 限远开关
+// Distance limit switch
 export enum DistanceLimitStatusEnum {
-  UNSET = 0, // 0-未设置
-  // Distance limit switch
-  SET = 1, // 1-已设置
+  UNSET = 0, // 0-Not set
+  SET = 1, // 1-Set
 }
 
 export interface DistanceLimitStatus {
   state?: DistanceLimitStatusEnum;
-  distance_limit?: number; // 限远
+  distance_limit?: number; // Distance limit
 }
 
-// 避障
+// Obstacle avoidance
 export enum ObstacleAvoidanceStatusEnum {
-  CLOSE = 0, // 0-关闭
-  // Obstacle avoidance
-  OPEN = 1, // 1-开启
+  CLOSE = 0, // 0-Close
+  OPEN = 1, // 1-Open
 }
 
 export interface ObstacleAvoidance {
-  horizon?: ObstacleAvoidanceStatusEnum;// 水平避障开关
-  upside?: ObstacleAvoidanceStatusEnum;// 上行方向避障开关
+  horizon?: ObstacleAvoidanceStatusEnum;// Horizontal obstacle avoidance switch
+  upside?: ObstacleAvoidanceStatusEnum;// Upward obstacle avoidance switch
+  downside?: ObstacleAvoidanceStatusEnum;// Downward obstacle avoidance switch
 }
 
-// 设备管理设置key
+// Device management settings key
 export enum DeviceSettingKeyEnum {
-  NIGHT_LIGHTS_MODE_SET = 'night_lights_state', // 夜航灯开关
-  // Device management setting keys
-  HEIGHT_LIMIT_SET = 'height_limit', // 限高设置
-  DISTANCE_LIMIT_SET = 'distance_limit_status', // 限远开关
-  OBSTACLE_AVOIDANCE_HORIZON = 'obstacle_avoidance_horizon', // 水平避障状态
-  OBSTACLE_AVOIDANCE_UPSIDE = 'obstacle_avoidance_upside', // 上视避障状态
-  OBSTACLE_AVOIDANCE_DOWNSIDE = 'obstacle_avoidance_downside', // 下视避障状态
+  NIGHT_LIGHTS_MODE_SET = 'night_lights_state', // Night lights switch
+  HEIGHT_LIMIT_SET = 'height_limit', // Height limit setting
+  DISTANCE_LIMIT_SET = 'distance_limit_status', // Distance limit switch
+  OBSTACLE_AVOIDANCE_HORIZON = 'obstacle_avoidance_horizon', // Horizontal obstacle avoidance status
+  OBSTACLE_AVOIDANCE_UPSIDE = 'obstacle_avoidance_upside', // Upward obstacle avoidance status
+  OBSTACLE_AVOIDANCE_DOWNSIDE = 'obstacle_avoidance_downside', // Downward obstacle avoidance status
 }
 
 export type DeviceSettingType = Record<DeviceSettingKeyEnum, any>
@@ -45,18 +42,17 @@ export type DeviceSettingType = Record<DeviceSettingKeyEnum, any>
 export const initDeviceSetting = {
   [DeviceSettingKeyEnum.NIGHT_LIGHTS_MODE_SET]:
   {
+    label: 'Aircraft Night Lights',
     value: '',
     trueValue: NightLightsStateEnum.CLOSE,
-    label: 'Aircraft Night Navigation Light',
     editable: false,
     popConfirm: {
       visible: false,
       loading: false,
-      // content: '为保证飞行器的作业安全，建议打开夜航灯',
-      // content: 'To ensure the operational safety of the aircraft, it is recommended to turn on the night navigation light',
-      settingKey: DeviceSettingKeyEnum.NIGHT_LIGHTS_MODE_SET,
-      label: 'Aircraft Night Navigation Light',
-    }
+      // content: 'To ensure flight safety, it is recommended to turn on night lights',
+      label: 'Aircraft Night Lights',
+    },
+    settingKey: DeviceSettingKeyEnum.NIGHT_LIGHTS_MODE_SET,
   },
   [DeviceSettingKeyEnum.HEIGHT_LIMIT_SET]:
   {
@@ -67,28 +63,26 @@ export const initDeviceSetting = {
     popConfirm: {
       visible: false,
       loading: false,
-      // content: '限高：20 - 1500m',
-      // info: '修改限高会影响当前机场的所有作业任务，建议确认作业情况后再进行修改',
       // content: 'Height limit: 20 - 1500m',
-      // info: 'Modifying the height limit will affect all current airport operation tasks. It is recommended to confirm the operation situation before making changes.',
-      settingKey: DeviceSettingKeyEnum.HEIGHT_LIMIT_SET,
-    }
+      // info: 'Modifying the height limit will affect all current airport operations, please confirm before making changes',
+      label: 'Height Limit',
+    },
+    settingKey: DeviceSettingKeyEnum.HEIGHT_LIMIT_SET,
   },
   [DeviceSettingKeyEnum.DISTANCE_LIMIT_SET]:
   {
     label: 'Distance Limit',
     value: '',
     trueValue: DistanceLimitStatusEnum.UNSET,
-    // info: '限远（15 - 8000m）是约束飞行器相对机场的最大作业距离',
+    // info: 'Distance limit (15 - 8000m) is the maximum operating distance of the aircraft relative to the airport',
     editable: false,
     popConfirm: {
-      // info: 'Distance limit (15 - 8000m) is the maximum operational distance of the aircraft relative to the airport',
       visible: false,
       loading: false,
-      // content: '限远 (15- 8000m) 是约束飞行器相对机场的最大作业距离',
-      // info: '修改限远会影响当前机场的所有作业任务，建议确认作业情况后再进行修改',
-      // content: 'Distance limit (15-8000m) is the maximum operational distance of the aircraft relative to the airport',
-      // info: 'Modifying the distance limit will affect all current airport operation tasks. It is recommended to confirm the operation situation before making changes.',
+      // content: 'Distance limit (15 - 8000m) is the maximum operating distance of the aircraft relative to the airport',
+      // info: 'Modifying the distance limit will affect all current airport operations, please confirm before making changes',
+      label: 'Distance Limit',
+
     },
     settingKey: DeviceSettingKeyEnum.DISTANCE_LIMIT_SET,
   },
@@ -97,15 +91,14 @@ export const initDeviceSetting = {
     label: 'Horizontal Obstacle Avoidance',
     value: '',
     trueValue: ObstacleAvoidanceStatusEnum.CLOSE,
-    // info: '飞行器的避障工作状态显示，可以快速开启/关闭飞行器避障，如需进一步设置请在设备运维页面设置',
+    // info: 'Displays the obstacle avoidance working status of the aircraft, you can quickly enable/disable obstacle avoidance, for further settings please go to the device maintenance page',
     editable: false,
-    // info: 'Displays the working status of the aircraft obstacle avoidance. You can quickly enable/disable obstacle avoidance. For further settings, please go to the device maintenance page.',
     popConfirm: {
       visible: false,
       loading: false,
-      // content: '飞行器避障是保障飞行作业安全的基础功能，建议保持飞行器避障开启',
-      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight operation safety. It is recommended to keep obstacle avoidance enabled.',
+      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight safety, it is recommended to keep obstacle avoidance enabled',
       label: 'Horizontal Obstacle Avoidance',
+
     },
     settingKey: DeviceSettingKeyEnum.OBSTACLE_AVOIDANCE_HORIZON,
   },
@@ -114,14 +107,14 @@ export const initDeviceSetting = {
     label: 'Upward Obstacle Avoidance',
     value: '',
     trueValue: ObstacleAvoidanceStatusEnum.CLOSE,
-    // info: '飞行器的避障工作状态显示，可以快速开启/关闭飞行器避障，如需进一步设置请在设备运维页面设置',
-    // info: 'Displays the working status of the aircraft obstacle avoidance. You can quickly enable/disable obstacle avoidance. For further settings, please go to the device maintenance page.',
+    // info: 'Displays the obstacle avoidance working status of the aircraft, you can quickly enable/disable obstacle avoidance, for further settings please go to the device maintenance page',
     editable: false,
     popConfirm: {
       visible: false,
       loading: false,
-      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight operation safety. It is recommended to keep obstacle avoidance enabled.',
+      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight safety, it is recommended to keep obstacle avoidance enabled',
       label: 'Upward Obstacle Avoidance',
+
     },
     settingKey: DeviceSettingKeyEnum.OBSTACLE_AVOIDANCE_UPSIDE,
   },
@@ -130,12 +123,12 @@ export const initDeviceSetting = {
     label: 'Downward Obstacle Avoidance',
     value: '',
     trueValue: ObstacleAvoidanceStatusEnum.CLOSE,
-    // info: 'Displays the working status of the aircraft obstacle avoidance. You can quickly enable/disable obstacle avoidance. For further settings, please go to the device maintenance page.',
-    // info: '飞行器的避障工作状态显示，可以快速开启/关闭飞行器避障，如需进一步设置请在设备运维页面设置',
+    // info: 'Displays the obstacle avoidance working status of the aircraft, you can quickly enable/disable obstacle avoidance, for further settings please go to the device maintenance page',
     editable: false,
     popConfirm: {
       visible: false,
-      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight operation safety. It is recommended to keep obstacle avoidance enabled.',
+      loading: false,
+      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight safety, it is recommended to keep obstacle avoidance enabled',
       label: 'Downward Obstacle Avoidance',
 
     },
@@ -144,10 +137,12 @@ export const initDeviceSetting = {
 } as DeviceSettingType
 
 export const initDeviceSettingFormModel = {
-  nightLightsState: false, // 夜航灯开关
-  heightLimit: 20, // 限高设置
-  distanceLimitStatus: { state: false, distanceLimit: 15 }, // 限远开关
-  obstacleAvoidanceHorizon: false, // 飞行器避障-水平开关设置
-  obstacleAvoidanceUpside: false, // 飞行器避障-上视开关设置
-  obstacleAvoidanceDownside: false, // 飞行器避障-下视开关设置
+  nightLightsState: false, // Night lights switch
+  heightLimit: 20, // Height limit setting
+  distanceLimitStatus: { state: false, distanceLimit: 15 }, // Distance limit switch
+  obstacleAvoidanceHorizon: false, // Obstacle avoidance - horizontal switch setting
+  obstacleAvoidanceUpside: false, // Obstacle avoidance - upward switch setting
+  obstacleAvoidanceDownside: false, // Obstacle avoidance - downward switch setting
 }
+
+export type DeviceSettingFormModel = typeof initDeviceSettingFormModel
