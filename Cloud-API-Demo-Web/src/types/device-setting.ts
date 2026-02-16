@@ -79,7 +79,6 @@ export const initDeviceSetting = {
     // info: 'Distance limit (15 - 8000m) is the maximum operational distance of the aircraft relative to the airport',
     editable: false,
     popConfirm: {
-      // info: 'Distance limit (15 - 8000m) is the maximum operational distance of the aircraft relative to the airport',
       visible: false,
       loading: false,
       // content: 'Distance limit (15-8000m) is the maximum operational distance of the aircraft relative to the airport',
@@ -95,12 +94,12 @@ export const initDeviceSetting = {
     trueValue: ObstacleAvoidanceStatusEnum.CLOSE,
     // info: 'Displays the working status of the aircraft obstacle avoidance. You can quickly enable/disable obstacle avoidance. For further settings, please go to the device maintenance page.',
     editable: false,
-    // info: 'Displays the working status of the aircraft obstacle avoidance. You can quickly enable/disable obstacle avoidance. For further settings, please go to the device maintenance page.',
     popConfirm: {
       visible: false,
       loading: false,
       // content: 'Aircraft obstacle avoidance is a basic function to ensure flight operation safety. It is recommended to keep obstacle avoidance enabled.',
       label: 'Horizontal Obstacle Avoidance',
+
     },
     settingKey: DeviceSettingKeyEnum.OBSTACLE_AVOIDANCE_HORIZON,
   },
@@ -113,8 +112,9 @@ export const initDeviceSetting = {
     popConfirm: {
       visible: false,
       loading: false,
-      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight operation safety. It is recommended to keep obstacle avoidance enabled.',
+      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight safety, it is recommended to keep obstacle avoidance enabled',
       label: 'Upward Obstacle Avoidance',
+
     },
     settingKey: DeviceSettingKeyEnum.OBSTACLE_AVOIDANCE_UPSIDE,
   },
@@ -126,7 +126,8 @@ export const initDeviceSetting = {
     editable: false,
     popConfirm: {
       visible: false,
-      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight operation safety. It is recommended to keep obstacle avoidance enabled.',
+      loading: false,
+      // content: 'Aircraft obstacle avoidance is a basic function to ensure flight safety, it is recommended to keep obstacle avoidance enabled',
       label: 'Downward Obstacle Avoidance',
     },
     settingKey: DeviceSettingKeyEnum.OBSTACLE_AVOIDANCE_DOWNSIDE,
