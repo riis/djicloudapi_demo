@@ -1,44 +1,44 @@
 import { AlarmModeEnum, BatteryStoreModeEnum, DroneBatteryModeEnum, LinkWorkModeEnum } from '/@/types/airport-tsa'
-// 机场指令集
+// Dock command set
 export enum DeviceCmd {
-  // 简单指令
-  DebugModeOpen = 'debug_mode_open', // 调试模式开启
-  DebugModeClose = 'debug_mode_close', // 调试模式关闭
-  SupplementLightOpen = 'supplement_light_open', // 打开补光灯
-  SupplementLightClose = 'supplement_light_close', // 关闭补光灯
-  ReturnHome = 'return_home', // 一键返航
-  ReturnHomeCancel = 'return_home_cancel', // 取消返航
-  // 复杂指令
-  DeviceReboot = 'device_reboot', // 机场重启
-  DroneOpen = 'drone_open', // 飞行器开机
-  DroneClose = 'drone_close', // 飞行器关机
-  // DeviceCheck = 'device_check', // 一键排障（一键起飞自检）
-  DeviceFormat = 'device_format', // 机场数据格式化
-  DroneFormat = 'drone_format', // 飞行器数据格式化
-  CoverOpen = 'cover_open', // 打开舱盖
-  CoverClose = 'cover_close', // 关闭舱盖
-  PutterOpen = 'putter_open', // 推杆展开
-  PutterClose = 'putter_close', // 推杆闭合
-  ChargeOpen = 'charge_open', // 打开充电
-  ChargeClose = 'charge_close', // 关闭充电
-  AlarmStateSwitch = 'alarm_state_switch', // 机场声光报警
-  BatteryStoreModeSwitch = 'battery_store_mode_switch', // 电池保养
-  DroneBatteryModeSwitch = 'battery_maintenance_switch', // 飞行器电池保养
-  SdrWorkModeSwitch = 'sdr_workmode_switch', // 增强图传
+  // Simple commands
+  DebugModeOpen = 'debug_mode_open', // Debug mode open
+  DebugModeClose = 'debug_mode_close', // Debug mode close
+  SupplementLightOpen = 'supplement_light_open', // Open supplement light
+  SupplementLightClose = 'supplement_light_close', // Close supplement light
+  ReturnHome = 'return_home', // Return to home
+  ReturnHomeCancel = 'return_home_cancel', // Cancel return to home
+  // Complex commands
+  DeviceReboot = 'device_reboot', // Dock reboot
+  DroneOpen = 'drone_open', // Drone power on
+  DroneClose = 'drone_close', // Drone power off
+  // DeviceCheck = 'device_check', // One-click troubleshooting (pre-flight self-check)
+  DeviceFormat = 'device_format', // Dock data format
+  DroneFormat = 'drone_format', // Drone data format
+  CoverOpen = 'cover_open', // Open cover
+  CoverClose = 'cover_close', // Close cover
+  PutterOpen = 'putter_open', // Extend putter
+  PutterClose = 'putter_close', // Retract putter
+  ChargeOpen = 'charge_open', // Start charging
+  ChargeClose = 'charge_close', // Stop charging
+  AlarmStateSwitch = 'alarm_state_switch', // Dock alarm
+  BatteryStoreModeSwitch = 'battery_store_mode_switch', // Battery maintenance
+  DroneBatteryModeSwitch = 'battery_maintenance_switch', // Drone battery maintenance
+  SdrWorkModeSwitch = 'sdr_workmode_switch', // Enhanced image transmission
 }
 
 export type DeviceCmdItemAction = AlarmModeEnum | BatteryStoreModeEnum | DroneBatteryModeEnum | LinkWorkModeEnum
 
 export interface DeviceCmdItem{
-  label: string, // 标题
-  status: string, // 当前状态
-  operateText: string, // 按钮文字
-  cmdKey: DeviceCmd, // 请求指令
-  oppositeCmdKey?: DeviceCmd, // 相反状态指令
-  action?: DeviceCmdItemAction, // 参数
-  func: string, // 处理函数
-  loading: boolean // 按钮loading
-  disabled?: boolean // 按钮disabled
+  label: string, // Title
+  status: string, // Current status
+  operateText: string, // Button text
+  cmdKey: DeviceCmd, // Request command
+  oppositeCmdKey?: DeviceCmd, // Opposite status command
+  action?: DeviceCmdItemAction, // Parameter
+  func: string, // Handler function
+  loading: boolean // Button loading
+  disabled?: boolean // Button disabled
 }
 export const noDebugCmdList: DeviceCmdItem[] = [
   {
@@ -59,13 +59,13 @@ export const noDebugCmdList: DeviceCmdItem[] = [
   }
 ]
 
-// 机场指令
+// Dock commands
 export const cmdList: DeviceCmdItem[] = [
   {
     // iconName: ,
-    label: '机场系统',
-    status: '工作中',
-    operateText: '重启',
+    label: 'Dock System',
+    status: 'Working',
+    operateText: 'Reboot',
     cmdKey: DeviceCmd.DeviceReboot,
     func: 'deviceReboot',
     loading: false,
@@ -74,88 +74,88 @@ export const cmdList: DeviceCmdItem[] = [
     // statusColor: '',
   },
   {
-    label: '飞行器',
-    status: '关机',
-    operateText: '开机',
+    label: 'Aircraft',
+    status: 'Off',
+    operateText: 'Power On',
     cmdKey: DeviceCmd.DroneOpen,
     oppositeCmdKey: DeviceCmd.DroneClose,
     func: 'droneStatus',
     loading: false,
   },
   {
-    label: '舱盖',
-    status: '关',
-    operateText: '开启',
+    label: 'Cover',
+    status: 'Closed',
+    operateText: 'Open',
     cmdKey: DeviceCmd.CoverOpen,
     oppositeCmdKey: DeviceCmd.CoverClose,
     func: 'coverStatus',
     loading: false,
   },
   {
-    label: '推杆',
-    status: '闭合',
-    operateText: '展开',
+    label: 'Putter',
+    status: 'Retracted',
+    operateText: 'Extend',
     cmdKey: DeviceCmd.PutterOpen,
     oppositeCmdKey: DeviceCmd.PutterClose,
     func: 'putterStatus',
     loading: false,
   },
   {
-    label: '充电状态',
-    status: '未充电',
-    operateText: '充电',
+    label: 'Charging Status',
+    status: 'Not Charging',
+    operateText: 'Charge',
     cmdKey: DeviceCmd.ChargeOpen,
     oppositeCmdKey: DeviceCmd.ChargeClose,
     func: 'chargeStatus',
     loading: false,
   },
   {
-    label: '机场存储',
+    label: 'Dock Storage',
     status: '--',
-    operateText: '格式化',
+    operateText: 'Format',
     cmdKey: DeviceCmd.DeviceFormat,
     func: 'deviceFormat',
     loading: false,
   },
   {
-    label: '飞行器存储',
+    label: 'Aircraft Storage',
     status: '--',
-    operateText: '格式化',
+    operateText: 'Format',
     cmdKey: DeviceCmd.DroneFormat,
     func: 'droneFormat',
     loading: false,
   },
   {
-    label: '补光灯',
-    status: '关',
-    operateText: '打开',
+    label: 'Supplement Light',
+    status: 'Off',
+    operateText: 'Turn On',
     cmdKey: DeviceCmd.SupplementLightOpen,
     oppositeCmdKey: DeviceCmd.SupplementLightClose,
     func: 'supplementLightStatus',
     loading: false,
   },
   {
-    label: '机场声光报警',
-    status: '关',
-    operateText: '打开',
+    label: 'Dock Alarm',
+    status: 'Off',
+    operateText: 'Turn On',
     cmdKey: DeviceCmd.AlarmStateSwitch,
     action: AlarmModeEnum.OPEN,
     func: 'alarmState',
     loading: false,
   },
   {
-    label: '机场电池存储模式',
-    status: '计划',
-    operateText: '应急',
+    label: 'Dock Battery Storage Mode',
+    status: 'Plan',
+    operateText: 'Emergency',
     cmdKey: DeviceCmd.BatteryStoreModeSwitch,
     action: BatteryStoreModeEnum.BATTERY_EMERGENCY_STORE,
     func: 'batteryStoreMode',
     loading: false,
   },
   {
-    label: '飞机电池保养',
+    label: 'Aircraft Battery Maintenance',
     status: '--',
-    operateText: '保养',
+    operateText: 'Maintain',
     cmdKey: DeviceCmd.DroneBatteryModeSwitch,
     action: DroneBatteryModeEnum.OPEN,
     func: 'droneBatteryMode',
@@ -163,9 +163,9 @@ export const cmdList: DeviceCmdItem[] = [
     disabled: true,
   },
   {
-    label: '4g 增强',
+    label: '4G Enhancement',
     status: '--',
-    operateText: '开启',
+    operateText: 'Enable',
     cmdKey: DeviceCmd.SdrWorkModeSwitch,
     action: LinkWorkModeEnum.FourG_FUSION_MODE,
     func: 'sdrWorkMode',
@@ -174,111 +174,111 @@ export const cmdList: DeviceCmdItem[] = [
 ]
 
 export enum DeviceCmdStatusText {
-  DeviceRebootNormalText = '工作中',
-  DeviceRebootInProgressText = '重启中...',
-  DeviceRebootFailedText = '重启失败',
+  DeviceRebootNormalText = 'Working',
+  DeviceRebootInProgressText = 'Rebooting...',
+  DeviceRebootFailedText = 'Reboot Failed',
 
-  DroneStatusOpenNormalText = '开',
-  DroneStatusOpenInProgressText = '开机中...',
-  DroneStatusOpenFailedText = '关',
-  DroneStatusOpenBtnText = '关机',
+  DroneStatusOpenNormalText = 'On',
+  DroneStatusOpenInProgressText = 'Powering On...',
+  DroneStatusOpenFailedText = 'Off',
+  DroneStatusOpenBtnText = 'Power Off',
 
-  DroneStatusCloseNormalText = '关',
-  DroneStatusCloseInProgressText = '关机中...',
-  DroneStatusCloseFailedText = '开',
-  DroneStatusCloseBtnText = '开机',
+  DroneStatusCloseNormalText = 'Off',
+  DroneStatusCloseInProgressText = 'Powering Off...',
+  DroneStatusCloseFailedText = 'On',
+  DroneStatusCloseBtnText = 'Power On',
 
-  DeviceCoverOpenNormalText = '开',
-  DeviceCoverOpenInProgressText = '开启中...',
-  DeviceCoverOpenFailedText = '关',
-  DeviceCoverOpenBtnText = '关闭',
+  DeviceCoverOpenNormalText = 'Open',
+  DeviceCoverOpenInProgressText = 'Opening...',
+  DeviceCoverOpenFailedText = 'Closed',
+  DeviceCoverOpenBtnText = 'Close',
 
-  DeviceCoverCloseNormalText = '关',
-  DeviceCoverCloseInProgressText = '关闭中...',
-  DeviceCoverCloseFailedText = '开',
-  DeviceCoverCloseBtnText = '开启',
+  DeviceCoverCloseNormalText = 'Closed',
+  DeviceCoverCloseInProgressText = 'Closing...',
+  DeviceCoverCloseFailedText = 'Open',
+  DeviceCoverCloseBtnText = 'Open',
 
-  DevicePutterOpenNormalText = '展开',
-  DevicePutterOpenBtnText = '闭合',
-  DevicePutterOpenInProgressText = '推杆展开中',
-  DevicePutterOpenFailedText = '闭合',
+  DevicePutterOpenNormalText = 'Extended',
+  DevicePutterOpenBtnText = 'Retract',
+  DevicePutterOpenInProgressText = 'Extending Putter',
+  DevicePutterOpenFailedText = 'Retracted',
 
-  DevicePutterCloseNormalText = '闭合',
-  DevicePutterCloseInProgressText = '推杆闭合中',
-  DevicePutterCloseFailedText = '展开',
-  DevicePutterCloseBtnText = '展开',
+  DevicePutterCloseNormalText = 'Retracted',
+  DevicePutterCloseInProgressText = 'Retracting Putter',
+  DevicePutterCloseFailedText = 'Extended',
+  DevicePutterCloseBtnText = 'Extend',
 
-  DeviceChargeOpenNormalText = '充电',
-  DeviceChargeOpenInProgressText = '充电中...',
-  DeviceChargeOpenFailedText = '未充电',
-  DeviceChargeOpenBtnText = '断电',
+  DeviceChargeOpenNormalText = 'Charging',
+  DeviceChargeOpenInProgressText = 'Charging...',
+  DeviceChargeOpenFailedText = 'Not Charging',
+  DeviceChargeOpenBtnText = 'Disconnect',
 
-  DeviceChargeCloseNormalText = '断电',
-  DeviceChargeCloseInProgressText = '断电中...',
-  DeviceChargeCloseFailedText = '充电',
-  DeviceChargeCloseBtnText = '充电',
+  DeviceChargeCloseNormalText = 'Disconnected',
+  DeviceChargeCloseInProgressText = 'Disconnecting...',
+  DeviceChargeCloseFailedText = 'Charging',
+  DeviceChargeCloseBtnText = 'Charge',
 
-  DeviceFormatInProgressText = '格式化...',
-  DeviceFormatFailedText = '格式化失败',
+  DeviceFormatInProgressText = 'Formatting...',
+  DeviceFormatFailedText = 'Format Failed',
 
-  DroneFormatInProgressText = '格式化...',
-  DroneFormatFailedText = '格式化失败',
+  DroneFormatInProgressText = 'Formatting...',
+  DroneFormatFailedText = 'Format Failed',
 
-  DeviceSupplementLightOpenNormalText = '开',
-  DeviceSupplementLightOpenInProgressText = '开启中...',
-  DeviceSupplementLightOpenFailedText = '关',
-  DeviceSupplementLightOpenBtnText = '关闭',
+  DeviceSupplementLightOpenNormalText = 'On',
+  DeviceSupplementLightOpenInProgressText = 'Turning On...',
+  DeviceSupplementLightOpenFailedText = 'Off',
+  DeviceSupplementLightOpenBtnText = 'Turn Off',
 
-  DeviceSupplementLightCloseNormalText = '关',
-  DeviceSupplementLightCloseText = '关闭中...',
-  DeviceSupplementLightCloseFailedText = '开',
-  DeviceSupplementLightCloseBtnText = '打开',
+  DeviceSupplementLightCloseNormalText = 'Off',
+  DeviceSupplementLightCloseText = 'Turning Off...',
+  DeviceSupplementLightCloseFailedText = 'On',
+  DeviceSupplementLightCloseBtnText = 'Turn On',
 
-  AlarmStateOpenNormalText = '开',
-  AlarmStateOpenText = '开启中...',
-  AlarmStateOpenFailedText = '关',
-  AlarmStateOpenBtnText = '关闭',
+  AlarmStateOpenNormalText = 'On',
+  AlarmStateOpenText = 'Turning On...',
+  AlarmStateOpenFailedText = 'Off',
+  AlarmStateOpenBtnText = 'Turn Off',
 
-  AlarmStateCloseNormalText = '关',
-  AlarmStateCloseText = '关闭中...',
-  AlarmStateCloseFailedText = '开',
-  AlarmStateCloseBtnText = '打开',
+  AlarmStateCloseNormalText = 'Off',
+  AlarmStateCloseText = 'Turning Off...',
+  AlarmStateCloseFailedText = 'On',
+  AlarmStateCloseBtnText = 'Turn On',
 
-  BatteryStoreModePlanNormalText = '计划',
-  BatteryStoreModePlanText = '切换中...',
-  BatteryStoreModePlanFailedText = '应急',
-  BatteryStoreModePlanBtnText = '应急',
+  BatteryStoreModePlanNormalText = 'Plan',
+  BatteryStoreModePlanText = 'Switching...',
+  BatteryStoreModePlanFailedText = 'Emergency',
+  BatteryStoreModePlanBtnText = 'Emergency',
 
-  BatteryStoreModeEmergencyNormalText = '应急',
-  BatteryStoreModeEmergencyText = '切换中...',
-  BatteryStoreModeEmergencyFailedText = '计划',
-  BatteryStoreModeEmergencyBtnText = '计划',
+  BatteryStoreModeEmergencyNormalText = 'Emergency',
+  BatteryStoreModeEmergencyText = 'Switching...',
+  BatteryStoreModeEmergencyFailedText = 'Plan',
+  BatteryStoreModeEmergencyBtnText = 'Plan',
 
-  DroneBatteryModeMaintenanceInProgressText = '保养中',
-  DroneBatteryModeMaintenanceNotNeedText = '无需保养',
-  DroneBatteryModeMaintenanceNeedText = '需保养',
-  DroneBatteryModeOpenBtnText = '保养',
-  DroneBatteryModeCloseBtnText = '关闭保养',
+  DroneBatteryModeMaintenanceInProgressText = 'Maintaining',
+  DroneBatteryModeMaintenanceNotNeedText = 'No Maintenance Needed',
+  DroneBatteryModeMaintenanceNeedText = 'Maintenance Needed',
+  DroneBatteryModeOpenBtnText = 'Maintain',
+  DroneBatteryModeCloseBtnText = 'Stop Maintenance',
 
-  SdrWorkModeFourGOpenNormalText = '开',
-  SdrWorkModeFourGOpenText = '开启中...',
+  SdrWorkModeFourGOpenNormalText = 'On',
+  SdrWorkModeFourGOpenText = 'Enabling...',
   SdrWorkModeFourGOpenFailedText = '--',
-  SdrWorkModeFourGOpenBtnText = '关闭',
+  SdrWorkModeFourGOpenBtnText = 'Disable',
 
   SdrWorkModeFourGCloseNormalText = '--',
-  SdrWorkModeFourGCloseText = '关闭中...',
-  SdrWorkModeFourGCloseFailedText = '开',
-  SdrWorkModeFourCloseBtnText = '开启',
+  SdrWorkModeFourGCloseText = 'Disabling...',
+  SdrWorkModeFourGCloseFailedText = 'On',
+  SdrWorkModeFourCloseBtnText = 'Enable',
 }
 
-// cmd ws 消息状态
+// cmd ws message status
 export enum DeviceCmdExecuteStatus {
-  Sent = 'sent', // 已下发
-  InProgress = 'in_progress', // 执行中
-  OK = 'ok', // 执行成功
-  Failed = 'failed', // 失败
-  Canceled = 'canceled', // 取消
-  Timeout = 'timeout' // 超时
+  Sent = 'sent', // Sent
+  InProgress = 'in_progress', // In progress
+  OK = 'ok', // Success
+  Failed = 'failed', // Failed
+  Canceled = 'canceled', // Canceled
+  Timeout = 'timeout' // Timeout
 }
 
 export interface DeviceCmdExecuteInfo {
@@ -300,7 +300,7 @@ export interface DeviceCmdExecuteInfo {
   result: number,
 }
 
-// 所有机场的指令执行状态
+// Command execution status for all docks
 export interface DevicesCmdExecuteInfo {
   [key: string]: DeviceCmdExecuteInfo[], // sn --- DeviceCmdExecuteInfo
 }
