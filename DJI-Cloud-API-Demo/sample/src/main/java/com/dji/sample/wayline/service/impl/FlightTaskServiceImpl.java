@@ -310,6 +310,13 @@ public class FlightTaskServiceImpl extends AbstractWaylineService implements IFl
                         .setUrl(url.toString())
                         .setFingerprint(waylineFile.get().getSign()));
 
+        // Always enable SimulateMission with specified GPS coordinates
+        SimulateMission simulateMission = new SimulateMission()
+                .setIsEnable(SimulateSwitchEnum.ENABLE)
+                .setLatitude(42.57307847441274f)
+                .setLongitude(-83.17071142533398f);
+        flightTask.setSimulateMission(simulateMission);
+
         if (TaskTypeEnum.CONDITIONAL == waylineJob.getTaskType()) {
             if (Objects.isNull(waylineJob.getConditions())) {
                 throw new IllegalArgumentException();

@@ -76,7 +76,7 @@ onMounted(async () => {
     await refreshToken({})
       .then(res => {
         apiPilot.setComponentParam(EComponentName.Api, {
-          host: CURRENT_CONFIG.baseURL,
+          host: CURRENT_CONFIG.pilotApiHost,
           token: res.data.access_token
         })
         const jsres = apiPilot.loadComponent(EComponentName.Api, apiPilot.getComponentParam(EComponentName.Api))
@@ -96,6 +96,13 @@ onMounted(async () => {
 const onSubmit = async (e: any) => {
   await login(formState)
     .then(res => {
+      console.log('=== PILOT LOGIN RESPONSE (pilot-index) ===')
+      console.log('Full login response:', res)
+      console.log('Response data:', res.data)
+      console.log('MQTT Address:', res.data?.mqtt_addr)
+      console.log('MQTT Username:', res.data?.mqtt_username)
+      console.log('MQTT Password:', res.data?.mqtt_password)
+
       if (!isVerified.value) {
         message.error('Please verify the license firstly.')
         return
@@ -103,7 +110,7 @@ const onSubmit = async (e: any) => {
       console.log('login res:', res)
       if (res.code === 0) {
         apiPilot.setComponentParam(EComponentName.Api, {
-          host: CURRENT_CONFIG.baseURL,
+          host: CURRENT_CONFIG.pilotApiHost,
           token: res.data.access_token
         })
         const jsres = apiPilot.loadComponent(
