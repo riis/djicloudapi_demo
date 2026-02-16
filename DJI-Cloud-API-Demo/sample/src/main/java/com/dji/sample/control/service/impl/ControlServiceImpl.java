@@ -18,6 +18,8 @@ import com.dji.sdk.cloudapi.debug.api.AbstractDebugService;
 import com.dji.sdk.cloudapi.device.DockModeCodeEnum;
 import com.dji.sdk.cloudapi.device.DroneModeCodeEnum;
 import com.dji.sdk.cloudapi.device.PayloadIndex;
+import com.dji.sdk.cloudapi.wayline.SimulateMission;
+import com.dji.sdk.cloudapi.wayline.SimulateSwitchEnum;
 import com.dji.sdk.cloudapi.wayline.api.AbstractWaylineService;
 import com.dji.sdk.common.HttpResultResponse;
 import com.dji.sdk.common.SDKManager;
@@ -165,8 +167,17 @@ public class ControlServiceImpl implements IControlService {
         checkTakeoffCondition(sn);
 
         param.setFlightId(UUID.randomUUID().toString());
+        TakeoffToPointRequest request = mapper.convertValue(param, TakeoffToPointRequest.class);
+        
+        // Always enable SimulateMission with specified GPS coordinates
+        SimulateMission simulateMission = new SimulateMission()
+                .setIsEnable(SimulateSwitchEnum.ENABLE)
+                .setLatitude(42.57307847441274f)
+                .setLongitude(-83.17071142533398f);
+        request.setSimulateMission(simulateMission);
+        
         TopicServicesResponse<ServicesReplyData> response = abstractControlService.takeoffToPoint(
-                SDKManager.getDeviceSDK(sn), mapper.convertValue(param, TakeoffToPointRequest.class));
+                SDKManager.getDeviceSDK(sn), request);
         ServicesReplyData reply = response.getData();
         return reply.getResult().isSuccess() ?
                 HttpResultResponse.success()

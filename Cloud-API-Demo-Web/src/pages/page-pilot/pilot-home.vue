@@ -284,6 +284,14 @@ onMounted(() => {
   setWorkspaceInfo()
 
   getUserInfo().then(res => {
+    console.log('=== PILOT LOGIN RESPONSE ===')
+    console.log('Full response:', res)
+    console.log('MQTT Address:', res.data.mqtt_addr)
+    console.log('MQTT Username:', res.data.mqtt_username)
+    console.log('MQTT Password:', res.data.mqtt_password)
+    console.log('User ID:', res.data.user_id)
+    console.log('Workspace ID:', res.data.workspace_id)
+
     username.value = res.data.username
     localStorage.setItem(ELocalStorageKey.Username, username.value)
     // thing
@@ -293,6 +301,9 @@ onMounted(() => {
       password: res.data.mqtt_password,
       connectCallback: 'connectCallback'
     }
+    console.log('Thing Module Parameters:', param)
+    console.log('Loading Thing component with params...')
+
     components.set(EComponentName.Thing, param)
     apiPilot.loadComponent(EComponentName.Thing, components.get(EComponentName.Thing))
 
