@@ -45,8 +45,8 @@ mqtt:
   # BASIC parameters are required.
   BASIC:
     protocol: MQTT # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
-    host: 192.168.1.1
-    port: 1883
+    host: ${DJI_MQTT_HOST_IP:-192.168.1.1}
+    port: ${DJI_MQTT_PORT:-1883}
     username: your-username
     password: your-password
     client-id: 123456
@@ -54,8 +54,8 @@ mqtt:
     path:
   DRC:
     protocol: WS # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
-    host: Please enter your ip.
-    port: 8083
+    host: ${DJI_MQTT_HOST_IP:-192.168.1.1}
+    port: ${DJI_MQTT_PORT:-1883}
     path: /mqtt
     username: JavaServer
     password: 123456
@@ -146,11 +146,11 @@ livestream:
     agora:
       channel: Please enter the agora channel.
       token: Please enter the agora temporary token.
-      uid:  654321
+      uid: 654321
 
     # RTMP  Note: This IP is the address of the streaming server. If you want to see livestream on web page, you need to convert the RTMP stream to WebRTC stream.
     rtmp:
-      url: Please enter the rtmp access address.  # Example: 'rtmp://192.168.1.1/live/'
+      url: Please enter the rtmp access address. # Example: 'rtmp://192.168.1.1/live/'
     rtsp:
       username: Please enter the username.
       password: Please enter the password.
