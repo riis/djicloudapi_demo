@@ -40,7 +40,7 @@ public class GetWaylineListRequest {
      * current page
      */
     @Min(1)
-    @Parameter(name = "page", description = "current page", schema = @Schema(defaultValue = "1", type = "int"))
+    @Parameter(name = "page", description = "current page", schema = @Schema(defaultValue = "1", type = "integer"))
     private int page = 1;
 
     /**
@@ -48,7 +48,7 @@ public class GetWaylineListRequest {
      */
     @Min(1)
     @JsonProperty("page_size")
-    @Parameter(name = "page_size", description = "page size", schema = @Schema(defaultValue = "10", type = "int"))
+    @Parameter(name = "page_size", description = "page size", schema = @Schema(defaultValue = "10", type = "integer"))
     private int pageSize = 10;
 
     /**
