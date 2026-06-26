@@ -10,6 +10,12 @@ import PkgConfig from 'vite-plugin-package-config'
 import viteSvgIcons from 'vite-plugin-svg-icons'
 import { viteVConsole } from 'vite-plugin-vconsole'
 
+const BACKEND_BASE_URL = process.env.VITE_BACKEND_BASE_URL || 'http://localhost:6789' // Default to localhost if not set
+
+if (!process.env.VITE_BACKEND_BASE_URL) {
+  console.warn('VITE_BACKEND_BASE_URL is not set. API calls will default to same-origin, which may not work if the backend is on a different host/port.')
+}
+
 // https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfigExport => defineConfig({
   plugins: [
@@ -40,44 +46,44 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => defineConfig(
     // [svgBuilder('./src/assets/icons/')] // All svg under src/icons/svg/ have been imported here, no need to import separately
   ],
   server: {
-    open: true,
+    open: false,
     host: '0.0.0.0',
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:6789',
+        target: BACKEND_BASE_URL,
         changeOrigin: true,
         ws: true,
         // pathRewrite is not needed; keep prefix so ws path /api/v1/ws works
       },
       '/manage': {
-        target: 'http://127.0.0.1:6789',
+        target: BACKEND_BASE_URL,
         changeOrigin: true,
         ws: true,
       },
       '/control': {
-        target: 'http://127.0.0.1:6789',
+        target: BACKEND_BASE_URL,
         changeOrigin: true,
         ws: true,
       },
       '/map': {
-        target: 'http://127.0.0.1:6789',
+        target: BACKEND_BASE_URL,
         changeOrigin: true,
         ws: true,
       },
       '/media': {
-        target: 'http://127.0.0.1:6789',
+        target: BACKEND_BASE_URL,
         changeOrigin: true,
         ws: true,
       },
       '/wayline': {
-        target: 'http://127.0.0.1:6789',
+        target: BACKEND_BASE_URL,
         changeOrigin: true,
         ws: true,
       }
     }
   },
-  envDir: './env',
+  envDir: '../',
   resolve: {
     alias: [{
       // https://github.com/vitejs/vite/issues/279#issuecomment-635646269

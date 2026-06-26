@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+
+  frontend:
+    image: node:lts-alpine
+    volumes:
+      - ./Cloud-API-Demo-Web:/app
+    ports:
+      - "8080:8080"
+    environment:
+      - VITE_BACKEND_BASE_URL=http://backend:6789
+      - DJI_CLOUD_API_APP_ID=${VITE_DJI_CLOUD_API_APP_ID:-your-app-id}
+      - DJI_CLOUD_API_APP_KEY=${VITE_DJI_CLOUD_API_APP_KEY:-your-app-key}
+      - DJI_CLOUD_API_APP_LICENSE=${VITE_DJI_CLOUD_API_APP_LICENSE:-your-app-license}
+    command: sh -c "cd /app && yarn install && yarn serve"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: DJI-Cloud-API-Demo
+    ports:
+      - "6789:6789"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_DRUID_URL=jdbc:mysql://mysql:3306/cloud_sample?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_DRUID_USERNAME=root
+      - SPRING_DATASOURCE_DRUID_PASSWORD=rootpassword
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - MQTT_BASIC_HOST=emqx
+      - MQTT_BASIC_PORT=1883
+      - DJI_CLOUD_API_APP_ID=${DJI_CLOUD_API_APP_ID:-your-app-id}
+      - DJI_CLOUD_API_APP_KEY=${DJI_CLOUD_API_APP_KEY:-your-app-key}
+      - DJI_CLOUD_API_APP_LICENSE=${DJI_CLOUD_API_APP_LICENSE:-your-app-license}
+    depends_on:
+      mysql:
+        condition: service_started
+      redis:
+        condition: service_started
+      emqx:
+        condition: service_healthy
+
+  emqx:
+    image: emqx/emqx:v4.0.0
+    container_name: emqx
+    environment:
+      EMQX_DASHBOARD__DEFAULT_USER__LOGIN: admin
+      EMQX_DASHBOARD__DEFAULT_USER__PASSWORD: admin
+    ports:
+      - "1883:1883"
+      - "8081:8081"
+      - "8083:8083"
+      - "8883:8883"
+      - "8084:8084"
+      - "18083:18083"
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx_ctl", "status"]
+      interval: 5s
+      timeout: 25s
+      retries: 5
+    volumes:
+      - emqx_data:/opt/emqx/data
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: cloud_sample
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./DJI-Cloud-API-Demo/sql/cloud_sample.sql:/docker-entrypoint-initdb.d/cloud_sample.sql
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  minio:
+    image: quay.io/minio/minio:RELEASE.2022-02-18T01-50-10Z
+    volumes:
+      - minio_data:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: 'minioadmin'
+      MINIO_ROOT_PASSWORD: 'minioadmin'
+      MINIO_ADDRESS: ':9000'
+      MINIO_CONSOLE_ADDRESS: ':9001'
+    command: minio server /data
+
+volumes:
+  emqx_data:
+  mysql_data:
+  redis_data:
+  minio_data:

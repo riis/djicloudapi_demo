@@ -10,8 +10,8 @@ spring:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/cloud_sample?useSSL=false&allowPublicKeyRetrieval=true
-      username: cloud-sdk
-      password: your-password
+      username: root
+      password: rootpassword
       initial-size: 10
       min-idle: 10
       max-active: 20
@@ -45,10 +45,10 @@ mqtt:
   # BASIC parameters are required.
   BASIC:
     protocol: MQTT # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
-    host: 192.168.1.1
+    host: 127.0.0.1
     port: 1883
-    username: your-username
-    password: your-password
+    username: djibackend
+    password: djibackend
     client-id: 123456
     # If the protocol is ws/wss, this value is required.
     path:
@@ -85,19 +85,19 @@ url:
     prefix: control
     version: /api/v1
 
-# Tutorial: https://www.alibabacloud.com/help/en/object-storage-service/latest/use-a-temporary-credential-provided-by-sts-to-access-oss
-oss:
-  enable: false
-  provider: ALIYUN # @see com.dji.sample.component.OssConfiguration.model.enums.OssTypeEnum
-  endpoint: https://oss-cn-hangzhou.aliyuncs.com
-  access-key: Please enter your access key.
-  secret-key: Please enter your secret key.
-  expire: 3600
-  region: Please enter your oss region. # cn-hangzhou
-  role-session-name: cloudApi
-  role-arn: Please enter your role arn. # acs:ram::123456789:role/stsrole
-  bucket: Please enter your bucket name.
-  object-dir-prefix: Please enter a folder name.
+# # Tutorial: https://www.alibabacloud.com/help/en/object-storage-service/latest/use-a-temporary-credential-provided-by-sts-to-access-oss
+# oss:
+#   enable: false
+#   provider: ALIYUN # @see com.dji.sample.component.OssConfiguration.model.enums.OssTypeEnum
+#   endpoint: https://oss-cn-hangzhou.aliyuncs.com
+#   access-key: Please enter your access key.
+#   secret-key: Please enter your secret key.
+#   expire: 3600
+#   region: Please enter your oss region. # cn-hangzhou
+#   role-session-name: cloudApi
+#   role-arn: Please enter your role arn. # acs:ram::123456789:role/stsrole
+#   bucket: Please enter your bucket name.
+#   object-dir-prefix: Please enter a folder name.
 
 #oss:
 #  enable: true
@@ -112,16 +112,16 @@ oss:
 #  bucket: cloudapi-bucket
 #  object-dir-prefix: wayline
 
-#oss:
-#  enable: true
-#  provider: minio
-#  endpoint: http://192.168.1.1:9000
-#  access-key: minioadmin
-#  secret-key: minioadmin
-#  bucket: cloud-bucket
-#  expire: 3600
-#  region: us-east-1
-#  object-dir-prefix: wayline
+oss:
+ enable: true
+ provider: minio
+ endpoint: http://minio:9000
+ access-key: minioadmin
+ secret-key: minioadmin
+ bucket: cloud-bucket
+ expire: 3600
+ region: us-east-1
+ object-dir-prefix: wayline
 
 logging:
   level:
@@ -136,9 +136,9 @@ ntp:
 # To create a license for an application: https://developer.dji.com/user/apps/#all
 cloud-api:
   app:
-    id: your-app-id
-    key: your-app-key
-    license: your-app-license
+    id: ${DJI_CLOUD_API_APP_ID:your-app-id}
+    key: ${DJI_CLOUD_API_APP_KEY:your-app-key}
+    license: ${DJI_CLOUD_API_APP_LICENSE:your-app-license}
 
 livestream:
   url:
