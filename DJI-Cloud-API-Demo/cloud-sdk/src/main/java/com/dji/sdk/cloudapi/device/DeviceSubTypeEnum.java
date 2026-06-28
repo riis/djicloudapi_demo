@@ -12,7 +12,9 @@ import java.util.Arrays;
  * @version 1.7
  * @date 2023/5/26
  */
-@Schema(description = "device subType", enumAsRef = true)
+// SpringDoc 1.x (swagger-core 2.1.x) does not derive type/enum values from @JsonValue;
+// type and allowableValues must be declared explicitly. Remove when upgraded to Spring Boot 3.x / SpringDoc 2.x.
+@Schema(description = "device subType", type = "integer", allowableValues = {"0", "1", "2", "65535"}, enumAsRef = true)
 public enum DeviceSubTypeEnum {
 
     ZERO(0),
