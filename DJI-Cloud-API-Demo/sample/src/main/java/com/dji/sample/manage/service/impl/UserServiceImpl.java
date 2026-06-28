@@ -97,7 +97,7 @@ public class UserServiceImpl implements IUserService {
         String token = JwtUtil.createToken(customClaim.convertToMap());
 
         UserDTO userDTO = entityConvertToDTO(userEntity);
-        userDTO.setMqttAddr(MqttPropertyConfiguration.getBasicMqttAddress());
+        userDTO.setMqttAddr(MqttPropertyConfiguration.getExternalBasicMqttAddress());
         userDTO.setAccessToken(token);
         userDTO.setWorkspaceId(workspaceOpt.get().getWorkspaceId());
         return HttpResultResponse.success(userDTO);
@@ -208,7 +208,7 @@ public class UserServiceImpl implements IUserService {
                 .userType(entity.getUserType())
                 .mqttUsername(entity.getMqttUsername())
                 .mqttPassword(entity.getMqttPassword())
-                .mqttAddr(MqttPropertyConfiguration.getBasicMqttAddress())
+                .mqttAddr(MqttPropertyConfiguration.getExternalBasicMqttAddress())
                 .build();
     }
 }

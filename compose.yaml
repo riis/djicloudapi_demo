@@ -28,8 +28,15 @@ services:
       - SPRING_DATASOURCE_DRUID_PASSWORD=rootpassword
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
-      - MQTT_BASIC_HOST=${DJI_MQTT_HOST_IP:-emqx}
-      - MQTT_BASIC_PORT=${DJI_MQTT_PORT:-1883}
+      # Backend -> broker connection (internal docker network)
+      - DJI_MQTT_HOST=${DJI_MQTT_HOST:-emqx}
+      - DJI_MQTT_PORT=${DJI_MQTT_PORT:-1883}
+      # Address advertised to clients/devices (Pilot app, web UI, docks) - must be LAN-routable
+      - DJI_MQTT_PUBLIC_HOST=${DJI_MQTT_PUBLIC_HOST:-localhost}
+      - DJI_MQTT_PUBLIC_PORT=${DJI_MQTT_PUBLIC_PORT:-1883}
+      # DRC (Direct Remote Control) websocket broker advertised to devices
+      - DJI_DRC_MQTT_HOST=${DJI_DRC_MQTT_HOST:-localhost}
+      - DJI_DRC_MQTT_PORT=${DJI_DRC_MQTT_PORT:-8083}
       - DJI_CLOUD_API_APP_ID=${DJI_CLOUD_API_APP_ID:-your-app-id}
       - DJI_CLOUD_API_APP_KEY=${DJI_CLOUD_API_APP_KEY:-your-app-key}
       - DJI_CLOUD_API_APP_LICENSE=${DJI_CLOUD_API_APP_LICENSE:-your-app-license}
@@ -50,10 +57,14 @@ services:
       EMQX_DASHBOARD__DEFAULT_USER__LOGIN: admin
       EMQX_DASHBOARD__DEFAULT_USER__PASSWORD: admin
       EMQX_LISTENERS__TCP__DEFAULT__BIND: ${DJI_MQTT_PORT:-1883}
+      # Pin the erlang node name to a stable value so mnesia data survives container recreates.
+      # Without this emqx uses the container IP, which changes on every --force-recreate and
+      # causes "register/listen error: badarg" on the stale volume.
+      EMQX_NODE_NAME: emqx@127.0.0.1
     ports:
       - "${DJI_MQTT_PORT:-1883}:1883"
       - "8081:8081"
-      - "8083:8083"
+      - "${DJI_DRC_MQTT_PORT:-8083}:8083"
       - "8883:8883"
       - "8084:8084"
       - "18083:18083"

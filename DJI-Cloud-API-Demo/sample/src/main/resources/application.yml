@@ -45,8 +45,14 @@ mqtt:
   # BASIC parameters are required.
   BASIC:
     protocol: MQTT # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
-    host: ${DJI_MQTT_HOST_IP:-192.168.1.1}
+    # Address the backend uses to connect to the broker. In docker this is the in-network
+    # service name (e.g. "emqx"); on bare metal it is the broker host.
+    host: ${DJI_MQTT_HOST}
     port: ${DJI_MQTT_PORT:-1883}
+    # Address advertised to clients/devices (Pilot app, web UI, docks). Must be routable from
+    # them (e.g. the host's LAN IP). Falls back to host/port above when unset.
+    public-host: ${DJI_MQTT_PUBLIC_HOST:-${DJI_MQTT_HOST}}
+    public-port: ${DJI_MQTT_PUBLIC_PORT:-${DJI_MQTT_PORT:-1883}}
     username: your-username
     password: your-password
     client-id: 123456
@@ -54,8 +60,10 @@ mqtt:
     path:
   DRC:
     protocol: WS # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
-    host: ${DJI_MQTT_HOST_IP:-192.168.1.1}
-    port: ${DJI_MQTT_PORT:-8083}
+    # DRC broker is only ever advertised to devices, never connected to by the backend, so its
+    # host is the device-facing (LAN-routable) address.
+    host: ${DJI_DRC_MQTT_HOST:-${DJI_MQTT_PUBLIC_HOST:-${DJI_MQTT_HOST}}}
+    port: ${DJI_DRC_MQTT_PORT:-8083}
     path: /mqtt
     username: JavaServer
     password: 123456

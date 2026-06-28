@@ -46,7 +46,8 @@ public class MqttPropertyConfiguration {
     }
 
     /**
-     * Get the mqtt address of the basic link.
+     * Get the mqtt address of the basic link used by the backend to connect to the broker.
+     * In containerized deployments this is the internal/in-network address (e.g. "emqx").
      * @return
      */
     public static String getBasicMqttAddress() {
@@ -54,19 +55,49 @@ public class MqttPropertyConfiguration {
     }
 
     /**
-     * Splice the mqtt address according to the parameters of different clients.
+     * Get the mqtt address of the basic link advertised to clients/devices (Pilot app, web UI,
+     * docks/drones). This may differ from {@link #getBasicMqttAddress()} when the backend reaches
+     * the broker over an internal network while clients must use a LAN-routable address.
+     * @return
+     */
+    public static String getExternalBasicMqttAddress() {
+        return getExternalMqttAddress(getBasicClientOptions());
+    }
+
+    /**
+     * Splice the mqtt address the backend uses to connect, from the client's connection host/port.
      * @param options
      * @return
      */
     private static String getMqttAddress(MqttClientOptions options) {
+        return buildMqttAddress(options.getProtocol(), options.getHost(), options.getPort(), options.getPath());
+    }
+
+    /**
+     * Splice the mqtt address advertised to external clients, preferring the public host/port and
+     * falling back to the connection host/port when they are not configured.
+     * @param options
+     * @return
+     */
+    private static String getExternalMqttAddress(MqttClientOptions options) {
+        String host = StringUtils.hasText(options.getPublicHost()) ? options.getPublicHost() : options.getHost();
+        Integer port = options.getPublicPort() != null ? options.getPublicPort() : options.getPort();
+        return buildMqttAddress(options.getProtocol(), host, port, options.getPath());
+    }
+
+    /**
+     * Splice an mqtt address from its parts. The path is only appended for ws/wss protocols.
+     * @return
+     */
+    private static String buildMqttAddress(MqttProtocolEnum protocol, String host, Integer port, String path) {
         StringBuilder addr = new StringBuilder()
-                .append(options.getProtocol().getProtocolAddr())
-                .append(options.getHost().trim())
+                .append(protocol.getProtocolAddr())
+                .append(host.trim())
                 .append(":")
-                .append(options.getPort());
-        if ((options.getProtocol() == MqttProtocolEnum.WS || options.getProtocol() == MqttProtocolEnum.WSS)
-                && StringUtils.hasText(options.getPath())) {
-            addr.append(options.getPath());
+                .append(port);
+        if ((protocol == MqttProtocolEnum.WS || protocol == MqttProtocolEnum.WSS)
+                && StringUtils.hasText(path)) {
+            addr.append(path);
         }
         return addr.toString();
     }
@@ -88,7 +119,7 @@ public class MqttPropertyConfiguration {
         String token = JwtUtil.createToken(map, age, algorithm, null, null);
 
         return new DrcModeMqttBroker()
-                .setAddress(getMqttAddress(mqtt.get(MqttUseEnum.DRC)))
+                .setAddress(getExternalMqttAddress(mqtt.get(MqttUseEnum.DRC)))
                 .setUsername(username)
                 .setClientId(clientId)
                 .setExpireTime(System.currentTimeMillis() / 1000 + age)
