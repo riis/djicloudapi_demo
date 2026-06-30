@@ -6,6 +6,7 @@ import com.dji.sdk.cloudapi.device.DeviceDomainEnum;
 import com.dji.sdk.cloudapi.device.DeviceSubTypeEnum;
 import com.dji.sdk.cloudapi.device.DeviceTypeEnum;
 import com.dji.sdk.cloudapi.tsa.DeviceIconUrl;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,8 +26,10 @@ import java.util.List;
 @Builder
 public class DeviceDTO {
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String deviceSn;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String deviceName;
 
     private String workspaceId;
@@ -47,6 +50,7 @@ public class DeviceDTO {
 
     private DeviceIconUrl iconUrl;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Boolean status;
 
     private Boolean boundStatus;

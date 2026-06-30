@@ -1,5 +1,6 @@
 package com.dji.sample.manage.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,14 +19,19 @@ import java.time.LocalDateTime;
 @Builder
 public class DeviceHmsDTO implements Cloneable {
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String hmsId;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String tid;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String bid;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String sn;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer level;
 
     private Integer module;

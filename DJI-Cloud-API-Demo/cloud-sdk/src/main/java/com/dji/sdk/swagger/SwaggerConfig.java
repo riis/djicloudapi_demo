@@ -1,5 +1,7 @@
 package com.dji.sdk.swagger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.models.Components;
@@ -52,5 +54,10 @@ public class SwaggerConfig {
         properties.setDefaultSupportFormData(true);
         properties.setDefaultProducesMediaType("application/json");
         return properties;
+    }
+
+    @Bean
+    public ModelResolver modelResolver(ObjectMapper objectMapper) {
+        return new ModelResolver(objectMapper);
     }
 }
