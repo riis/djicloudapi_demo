@@ -9,12 +9,9 @@ services:
       - "8080:8080"
     environment:
       - VITE_BACKEND_BASE_URL=http://backend:6789
-      - DJI_CLOUD_API_APP_ID=${VITE_DJI_CLOUD_API_APP_ID:-your-app-id}
-      - DJI_CLOUD_API_APP_KEY=${VITE_DJI_CLOUD_API_APP_KEY:-your-app-key}
-      - DJI_CLOUD_API_APP_LICENSE=${VITE_DJI_CLOUD_API_APP_LICENSE:-your-app-license}
-      - VITE_DJI_CLOUD_API_APP_ID=${DJI_CLOUD_API_APP_ID:-your-app-id}
-      - VITE_DJI_CLOUD_API_APP_KEY=${DJI_CLOUD_API_APP_KEY:-your-app-key}
-      - VITE_DJI_CLOUD_API_APP_LICENSE=${DJI_CLOUD_API_APP_LICENSE:-your-app-license}
+      - VITE_DJI_CLOUD_API_APP_ID=${DJI_CLOUD_API_APP_ID:?}
+      - VITE_DJI_CLOUD_API_APP_KEY=${DJI_CLOUD_API_APP_KEY:?}
+      - VITE_DJI_CLOUD_API_APP_LICENSE=${DJI_CLOUD_API_APP_LICENSE:?}
     command: sh -c "cd /app && yarn install && yarn serve"
     depends_on:
       - backend
