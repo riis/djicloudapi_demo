@@ -284,13 +284,15 @@ onMounted(() => {
   setWorkspaceInfo()
 
   getUserInfo().then(res => {
-    console.debug('=== PILOT LOGIN RESPONSE ===')
-    console.debug('Full response:', res)
-    console.debug('MQTT Address:', res.data.mqtt_addr)
-    console.debug('MQTT Username:', res.data.mqtt_username)
-    console.debug('MQTT Password:', res.data.mqtt_password)
-    console.debug('User ID:', res.data.user_id)
-    console.debug('Workspace ID:', res.data.workspace_id)
+    if (import.meta.env.DEV) {
+      console.debug('=== PILOT LOGIN RESPONSE ===')
+      console.debug('Full response:', res)
+      console.debug('MQTT Address:', res.data.mqtt_addr)
+      console.debug('MQTT Username:', res.data.mqtt_username)
+      console.debug('MQTT Password:', res.data.mqtt_password)
+      console.debug('User ID:', res.data.user_id)
+      console.debug('Workspace ID:', res.data.workspace_id)
+    }
 
     username.value = res.data.username
     localStorage.setItem(ELocalStorageKey.Username, username.value)

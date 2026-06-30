@@ -96,18 +96,20 @@ onMounted(async () => {
 const onSubmit = async (e: any) => {
   await login(formState)
     .then(res => {
-      console.debug('=== PILOT LOGIN RESPONSE (pilot-index) ===')
-      console.debug('Full login response:', res)
-      console.debug('Response data:', res.data)
-      console.debug('MQTT Address:', res.data?.mqtt_addr)
-      console.debug('MQTT Username:', res.data?.mqtt_username)
-      console.debug('MQTT Password:', res.data?.mqtt_password)
+      if (import.meta.env.DEV) {
+        console.debug('=== PILOT LOGIN RESPONSE (pilot-index) ===')
+        console.debug('Full login response:', res)
+        console.debug('Response data:', res.data)
+        console.debug('MQTT Address:', res.data?.mqtt_addr)
+        console.debug('MQTT Username:', res.data?.mqtt_username)
+        console.debug('MQTT Password:', res.data?.mqtt_password)
+      }
 
       if (!isVerified.value) {
         message.error('Please verify the license firstly.')
         return
       }
-      console.debug('login res:', res)
+
       if (res.code === 0) {
         apiPilot.setComponentParam(EComponentName.Api, {
           host: CURRENT_CONFIG.pilotApiHost,
