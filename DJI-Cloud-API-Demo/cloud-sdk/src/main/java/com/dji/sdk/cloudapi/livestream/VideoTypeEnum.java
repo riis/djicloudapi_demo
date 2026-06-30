@@ -36,6 +36,9 @@ public enum VideoTypeEnum {
 
     @JsonCreator
     public static VideoTypeEnum find(String videoType) {
+        if (videoType == null || videoType.isBlank()) {
+            return null;
+        }
         return Arrays.stream(values()).filter(typeEnum -> typeEnum.type.equals(videoType)).findAny()
                 .orElseThrow(() -> new CloudSDKException(VideoTypeEnum.class , videoType));
     }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author sean
@@ -30,9 +31,14 @@ public class DrcDownPublish {
 
     public void publish(String sn, String method, Object data, int publishCount) {
         String topic = TopicConst.THING_MODEL_PRE + TopicConst.PRODUCT + Objects.requireNonNull(sn) + TopicConst.DRC + TopicConst.DOWN;
+        // tid and bid must be unique per message; timestamp must be present.
+        // The DJI firmware rejects DRC frames where these fields are null.
         gatewayPublish.publish(topic,
                 new TopicDrcRequest<>()
                         .setMethod(method)
+                        .setTid(UUID.randomUUID().toString())
+                        .setBid(UUID.randomUUID().toString())
+                        .setTimestamp(System.currentTimeMillis())
                         .setData(Objects.requireNonNullElse(data, "")),
                 publishCount);
     }

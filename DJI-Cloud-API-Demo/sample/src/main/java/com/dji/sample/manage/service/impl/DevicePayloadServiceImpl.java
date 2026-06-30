@@ -65,7 +65,19 @@ public class DevicePayloadServiceImpl implements IDevicePayloadService {
             entity.setFirmwareVersion(null);
             return mapper.updateById(entity) > 0 ? entity.getId() : 0;
         }
-        return mapper.insert(entity) > 0 ? entity.getId() : 0;
+        try {
+            return mapper.insert(entity) > 0 ? entity.getId() : 0;
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            // Race condition: another thread inserted this payload between our SELECT and INSERT.
+            log.warn("Duplicate payload_sn {} detected during insert, retrying as update", entity.getPayloadSn());
+            id = this.checkPayloadExist(entity.getPayloadSn());
+            if (id > 0) {
+                entity.setId(id);
+                entity.setFirmwareVersion(null);
+                return mapper.updateById(entity) > 0 ? entity.getId() : 0;
+            }
+            return 0;
+        }
     }
 
     @Override
@@ -139,8 +151,10 @@ public class DevicePayloadServiceImpl implements IDevicePayloadService {
      * @param payloads
      */
     public void updatePayloadControl(DeviceDTO drone, List<DevicePayloadReceiver> payloads) {
-        boolean match = payloads.stream().peek(p -> p.setSn(Objects.requireNonNullElse(p.getSn(),
-                p.getDeviceSn() + "-" + p.getPayloadIndex().getPosition().getPosition())))
+        boolean match = payloads.stream()
+                .peek(p -> p.setSn(p.getSn() != null && !p.getSn().isBlank()
+                        ? p.getSn()
+                        : p.getDeviceSn() + "-" + p.getPayloadIndex().getPosition().getPosition()))
                 .anyMatch(p -> ControlSourceEnum.UNKNOWN == p.getControlSource());
         if (match) {
             return;

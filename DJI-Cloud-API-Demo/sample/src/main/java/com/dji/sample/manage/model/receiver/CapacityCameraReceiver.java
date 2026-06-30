@@ -1,6 +1,7 @@
 package com.dji.sample.manage.model.receiver;
 
 import com.dji.sdk.cloudapi.device.PayloadIndex;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -18,6 +19,12 @@ public class CapacityCameraReceiver {
     private Integer coexistVideoNumberMax;
 
     private PayloadIndex cameraIndex;
+
+    @JsonProperty("availabe_camera_positions")
+    private List<Integer> availableCameraPositions;
+
+    @JsonProperty("camera_position")
+    private Integer cameraPosition;
 
     private List<CapacityVideoReceiver> videoList;
 

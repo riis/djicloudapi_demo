@@ -29,6 +29,8 @@ public enum DeviceEnum {
 
     M3M(DeviceDomainEnum.DRONE, DeviceTypeEnum.M3E, DeviceSubTypeEnum.TWO),
 
+    M3TA(DeviceDomainEnum.DRONE, DeviceTypeEnum.M3E, DeviceSubTypeEnum.THREE),
+
     Z30(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.Z30, DeviceSubTypeEnum.ZERO),
 
     XT2(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.XT2, DeviceSubTypeEnum.ZERO),
@@ -40,6 +42,10 @@ public enum DeviceEnum {
     H20(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.H20, DeviceSubTypeEnum.ZERO),
 
     H20T(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.H20T, DeviceSubTypeEnum.ZERO),
+
+    H30(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.H30, DeviceSubTypeEnum.ZERO),
+
+    H30T(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.H30T, DeviceSubTypeEnum.ZERO),
 
     P1(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.P1, DeviceSubTypeEnum._65535),
 
@@ -59,11 +65,15 @@ public enum DeviceEnum {
 
     M3M_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M3M_CAMERA, DeviceSubTypeEnum.ZERO),
 
+    M3TA_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M3TA_CAMERA, DeviceSubTypeEnum.ZERO),
+
     RC(DeviceDomainEnum.REMOTER_CONTROL, DeviceTypeEnum.RC, DeviceSubTypeEnum.ZERO),
 
     RC_PLUS(DeviceDomainEnum.REMOTER_CONTROL, DeviceTypeEnum.RC_PLUS, DeviceSubTypeEnum.ZERO),
 
     RC_PRO(DeviceDomainEnum.REMOTER_CONTROL, DeviceTypeEnum.RC_PRO, DeviceSubTypeEnum.ZERO),
+
+    RC_PLUS_2(DeviceDomainEnum.REMOTER_CONTROL, DeviceTypeEnum.RC_PLUS_2, DeviceSubTypeEnum.ZERO),
 
     DOCK(DeviceDomainEnum.DOCK, DeviceTypeEnum.DOCK, DeviceSubTypeEnum.ZERO),
 
@@ -75,13 +85,29 @@ public enum DeviceEnum {
 
     M3TD(DeviceDomainEnum.DRONE, DeviceTypeEnum.M3D, DeviceSubTypeEnum.ONE),
 
-    M4D(DeviceDomainEnum.DRONE, DeviceTypeEnum.M4D, DeviceSubTypeEnum.ZERO),
-
-    M4TD(DeviceDomainEnum.DRONE, DeviceTypeEnum.M4D, DeviceSubTypeEnum.ONE),
-
     M3D_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M3D_CAMERA, DeviceSubTypeEnum.ZERO),
 
     M3TD_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M3TD_CAMERA, DeviceSubTypeEnum.ZERO),
+
+    M3D_VISION_ASSIST(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M3D_VISION_ASSIST, DeviceSubTypeEnum.ZERO),
+
+    M4E(DeviceDomainEnum.DRONE, DeviceTypeEnum.M4E_AIRCRAFT, DeviceSubTypeEnum.ZERO),
+
+    M4T(DeviceDomainEnum.DRONE, DeviceTypeEnum.M4T_AIRCRAFT, DeviceSubTypeEnum.ONE),
+
+    M4D(DeviceDomainEnum.DRONE, DeviceTypeEnum.M4D_AIRCRAFT, DeviceSubTypeEnum.ZERO),
+
+    M4TD(DeviceDomainEnum.DRONE, DeviceTypeEnum.M4TD_AIRCRAFT, DeviceSubTypeEnum.ONE),
+
+    M400(DeviceDomainEnum.DRONE, DeviceTypeEnum.MATRICE_400, DeviceSubTypeEnum.ZERO),
+
+    M4E_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M4E_CAMERA, DeviceSubTypeEnum.ZERO),
+
+    M4T_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M4T_CAMERA, DeviceSubTypeEnum.ZERO),
+
+    M4D_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M4D_CAMERA, DeviceSubTypeEnum.ZERO),
+
+    M4TD_CAMERA(DeviceDomainEnum.PAYLOAD, DeviceTypeEnum.M4TD_CAMERA, DeviceSubTypeEnum.ZERO),
     ;
 
     @Schema(enumAsRef = true)

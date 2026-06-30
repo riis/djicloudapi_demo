@@ -30,7 +30,10 @@ public enum DockStateDataKeyEnum {
 
     WPMZ_VERSION(Set.of("wpmz_version"), DockDroneWpmzVersion.class),
 
-    THERMAL_SUPPORTED_PALETTE_STYLE(PayloadModelConst.getAllIndexWithPosition(), DockDroneThermalSupportedPaletteStyle.class),
+    FLYSAFE_DATABASE_VERSION(Set.of("flysafe_database_version"), DockDroneFlysafeDatabaseVersion.class),
+
+    THERMAL_SUPPORTED_PALETTE_STYLE(PayloadModelConst.getAllIndexWithPosition(),
+            DockDroneThermalSupportedPaletteStyle.class),
 
     RTH_MODE(Set.of("rth_mode"), DockDroneRthMode.class),
 
@@ -40,22 +43,55 @@ public enum DockStateDataKeyEnum {
 
     CURRENT_COMMANDER_FLIGHT_MODE(Set.of("current_commander_flight_mode"), DockDroneCurrentCommanderFlightMode.class),
 
+    COMMANDER_FLIGHT_MODE(Set.of("commander_flight_mode"), DockDroneCommanderFlightMode.class),
+
     COMMANDER_FLIGHT_HEIGHT(Set.of("commander_flight_height"), DockDroneCommanderFlightHeight.class),
 
     MODE_CODE_REASON(Set.of("mode_code_reason"), DockDroneModeCodeReason.class),
 
     OFFLINE_MAP_ENABLE(Set.of("offline_map_enable"), DockDroneOfflineMapEnable.class),
 
+    AR_INFO_SWITCH(Set.of("ar_info_switch"), DockDroneArInfoSwitch.class),
+
     DONGLE_INFOS(Set.of("dongle_infos"), DongleInfos.class),
 
     SILENT_MODE(Set.of("silent_mode"), DockSilentMode.class),
+
+    AIR_TRANSFER_ENABLE(Set.of("air_transfer_enable"), DockAirTransferEnable.class),
+
+    WIRELESS_LINK_TOPO(Set.of("wireless_link_topo"), DockWirelessLinkTopo.class),
+
+    RTCM_INFO(Set.of("rtcm_info"), DockRtcmInfo.class),
+
+    GEO_CAGING_STATUS(Set.of("geo_caging_status"), DockDroneGeoCagingStatus.class),
+
+    CAMERAS(Set.of("cameras"), DockDroneCameras.class),
+
+    UOM_REAL_NAME_STATE(Set.of("uom_real_name_state"), DockDroneUomRealNameState.class),
+
+    PAYLOADS(Set.of("payloads"), DockDronePayloads.class),
+
+    CAMERA_WATERMARK_SETTINGS(Set.of("camera_watermark_settings"), DockDroneCameraWatermarkSettings.class),
+
+    PSDK_UI_RESOURCE(Set.of("psdk_ui_resource"), DockDronePsdkUiResource.class),
+
+    PSDK_WIDGET_VALUES(Set.of("psdk_widget_values"), DockDronePsdkWidgetValues.class),
+
+    DEPARTURE_TRAJECTORY(Set.of("departure_trajectory"), DockDepartureTrajectory.class),
+
+    REMAINING_POWER_FOR_RETURN_HOME(Set.of("remaining_power_for_return_home"), DockDroneRemainingPowerForReturnHome.class),
+
+    UOM_REAL_NAME_TAG(Set.of("uom_real_name_tag"), DockDroneUomRealNameTag.class),
+
+    IS_BEIDOU_VERSION(Set.of("is_beidou_version"), DockDroneIsBeidouVersion.class),
+
+    AI_MODEL_LIST(Set.of("ai_model_list"), DockDroneAiModelList.class)
 
     ;
 
     private final Set<String> keys;
 
     private final Class classType;
-
 
     DockStateDataKeyEnum(Set<String> keys, Class classType) {
         this.keys = keys;

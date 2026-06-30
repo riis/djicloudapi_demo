@@ -189,9 +189,14 @@ public abstract class AbstractWaylineService {
      */
     @ServiceActivator(inputChannel = ChannelName.INBOUND_EVENTS_RETURN_HOME_INFO, outputChannel = ChannelName.OUTBOUND_EVENTS)
     @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
-    public TopicRequestsResponse<MqttReply> returnHomeInfo(TopicRequestsRequest<ReturnHomeInfo> request, MessageHeaders headers) {
+    public TopicEventsResponse<MqttReply> returnHomeInfo(TopicEventsRequest<ReturnHomeInfo> request, MessageHeaders headers) {
         throw new UnsupportedOperationException("returnHomeInfo not implemented");
     }
+
+    // Note that the above signature changed from
+    // public TopicRequestsResponse<MqttReply> returnHomeInfo(TopicRequestsRequest<ReturnHomeInfo> request, MessageHeaders headers) {
+    // This may indicate a version compatability change which may need to marked by a different CloudSDK version
+    // For now we default to the latest signature but older devices may need the old behavior
 
     private void validPrepareParam(FlighttaskPrepareRequest request) {
         if (null == request.getExecuteTime()

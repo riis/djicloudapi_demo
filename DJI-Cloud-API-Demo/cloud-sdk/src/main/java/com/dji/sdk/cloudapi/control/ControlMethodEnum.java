@@ -63,9 +63,13 @@ public enum ControlMethodEnum {
 
     CAMERA_POINT_FOCUS_ACTION("camera_point_focus_action"),
 
-    DRONE_CONTROL("drone_control"),
+    DRONE_CONTROL("drone_control"), // deprecated
+    
+    STICK_CONTROL("stick_control"),
 
     DRONE_EMERGENCY_STOP("drone_emergency_stop"),
+
+    DRC_EMERGENCY_LANDING("drc_emergency_landing"),
 
     HEART_BEAT("heart_beat"),
 

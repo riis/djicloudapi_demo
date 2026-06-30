@@ -156,4 +156,10 @@ public class SDKWaylineService extends AbstractWaylineService {
             return new TopicRequestsResponse().setData(MqttReply.error(CommonErrorEnum.SYSTEM_ERROR));
         }
     }
+
+    @Override
+    public TopicEventsResponse<MqttReply> returnHomeInfo(TopicEventsRequest<ReturnHomeInfo> request, MessageHeaders headers) {
+        log.debug("returnHomeInfo from {}: {}", request.getGateway(), request.getData());
+        return new TopicEventsResponse<MqttReply>().setData(MqttReply.success());
+    }
 }

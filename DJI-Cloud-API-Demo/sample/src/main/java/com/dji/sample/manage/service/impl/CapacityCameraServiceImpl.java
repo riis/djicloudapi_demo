@@ -64,6 +64,8 @@ public class CapacityCameraServiceImpl implements ICapacityCameraService {
 
         return builder
                 .id(UUID.randomUUID().toString())
+            .availableCameraPositions(receiver.getAvailableCameraPositions())
+            .cameraPosition(receiver.getCameraPosition())
                 .videosList(receiver.getVideoList()
                         .stream()
                         .map(cameraVideoService::receiver2Dto)

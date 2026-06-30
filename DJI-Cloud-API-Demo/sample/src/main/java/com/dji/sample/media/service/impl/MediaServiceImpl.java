@@ -1,6 +1,7 @@
 package com.dji.sample.media.service.impl;
 
 import com.dji.sample.component.oss.model.OssConfiguration;
+import com.dji.sample.component.oss.service.impl.OssServiceContext;
 import com.dji.sample.component.websocket.model.BizCodeEnum;
 import com.dji.sample.component.websocket.service.IWebSocketMessageService;
 import com.dji.sample.manage.model.dto.DeviceDTO;
@@ -15,9 +16,12 @@ import com.dji.sample.media.service.IMediaService;
 import com.dji.sample.wayline.service.IWaylineJobService;
 import com.dji.sdk.cloudapi.media.*;
 import com.dji.sdk.cloudapi.media.api.AbstractMediaService;
+import com.dji.sdk.cloudapi.storage.StsCredentialsResponse;
 import com.dji.sdk.mqtt.MqttReply;
 import com.dji.sdk.mqtt.events.TopicEventsRequest;
 import com.dji.sdk.mqtt.events.TopicEventsResponse;
+import com.dji.sdk.mqtt.requests.TopicRequestsRequest;
+import com.dji.sdk.mqtt.requests.TopicRequestsResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +63,21 @@ public class MediaServiceImpl extends AbstractMediaService implements IMediaServ
 
     @Autowired
     private IMediaRedisService mediaRedisService;
+
+    @Autowired
+    private OssServiceContext ossService;
+
+    @Override
+    public TopicRequestsResponse<MqttReply<StsCredentialsResponse>> storageConfigGet(TopicRequestsRequest<StorageConfigGet> request, MessageHeaders headers) {
+        StsCredentialsResponse credentials = new StsCredentialsResponse()
+                .setEndpoint(OssConfiguration.endpoint)
+                .setBucket(OssConfiguration.bucket)
+                .setCredentials(ossService.getCredentials())
+                .setProvider(OssConfiguration.provider)
+                .setObjectKeyPrefix(OssConfiguration.objectDirPrefix)
+                .setRegion(OssConfiguration.region);
+        return new TopicRequestsResponse<MqttReply<StsCredentialsResponse>>().setData(MqttReply.success(credentials));
+    }
 
     @Override
     public Boolean fastUpload(String workspaceId, String fingerprint) {
@@ -134,6 +153,8 @@ public class MediaServiceImpl extends AbstractMediaService implements IMediaServ
                 return new TopicEventsResponse<MqttReply>().setData(MqttReply.success());
             }
             countDTO.setPreJobId(countDTO.getJobId());
+        } else {
+            countDTO = new MediaFileCountDTO();
         }
         countDTO.setJobId(jobId);
         mediaRedisService.setMediaHighestPriority(request.getGateway(), countDTO);

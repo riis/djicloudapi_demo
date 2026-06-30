@@ -98,6 +98,8 @@ public enum EventsMethodEnum {
 
     CAMERA_PHOTO_TAKE_PROGRESS("camera_photo_take_progress", ChannelName.INBOUND_EVENTS_CAMERA_PHOTO_TAKE_PROGRESS, new TypeReference<EventsDataRequest<CameraPhotoTakeProgress>>() {}),
 
+    CLOUD_CONTROL_AUTH_NOTIFY("cloud_control_auth_notify", ChannelName.INBOUND_EVENTS_CLOUD_CONTROL_AUTH_NOTIFY, new TypeReference<java.util.Map<String, Object>>() {}),
+
     UNKNOWN("", ChannelName.DEFAULT, new TypeReference<>() {});
 
     private final String method;

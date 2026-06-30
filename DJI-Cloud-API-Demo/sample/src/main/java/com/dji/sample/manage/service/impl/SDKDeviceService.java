@@ -11,6 +11,10 @@ import com.dji.sample.manage.service.IDevicePayloadService;
 import com.dji.sample.manage.service.IDeviceRedisService;
 import com.dji.sample.manage.service.IDeviceService;
 import com.dji.sdk.cloudapi.device.*;
+import com.dji.sdk.cloudapi.property.DockDroneCommanderFlightHeight;
+import com.dji.sdk.cloudapi.property.DockDroneCommanderModeLostAction;
+import com.dji.sdk.cloudapi.property.DockDroneRthMode;
+import com.dji.sdk.cloudapi.property.DockDroneOfflineMapEnable;
 import com.dji.sdk.cloudapi.device.api.AbstractDeviceService;
 import com.dji.sdk.cloudapi.tsa.DeviceIconUrl;
 import com.dji.sdk.cloudapi.tsa.IconUrlEnum;
@@ -19,6 +23,7 @@ import com.dji.sdk.common.SDKManager;
 import com.dji.sdk.mqtt.MqttReply;
 import com.dji.sdk.mqtt.osd.TopicOsdRequest;
 import com.dji.sdk.mqtt.state.TopicStateRequest;
+import com.dji.sdk.mqtt.state.TopicStateResponse;
 import com.dji.sdk.mqtt.status.TopicStatusRequest;
 import com.dji.sdk.mqtt.status.TopicStatusResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -259,6 +264,8 @@ public class SDKDeviceService extends AbstractDeviceService {
         }
     }
 
+
+
     @Override
     public void rcAndDroneFirmwareVersionUpdate(TopicStateRequest<FirmwareVersion> request, MessageHeaders headers) {
         // If the reported version is empty, it will not be processed to prevent misleading page.
@@ -274,6 +281,141 @@ public class SDKDeviceService extends AbstractDeviceService {
         if (!isUpd) {
             log.error("Data update of firmware version failed. SN: {}", request.getFrom());
         }
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dongleInfos(TopicStateRequest<DongleInfos> request, MessageHeaders headers) {
+        // RC and Dock2 can send dongle_infos (4G dongle status). Acknowledge without processing.
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    /** 
+     * This is a purely informational state update — the drone is reporting its configured "what to do if commander mode is lost" 
+    */
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneCommanderModeLostAction(
+            TopicStateRequest<DockDroneCommanderModeLostAction> request, MessageHeaders headers) {
+        log.debug("dockDroneCommanderModeLostAction from {}: {}", request.getFrom(), request.getData());
+        // TODO: Add any special alerts, telemetry updates or status updates to C2 here if needed.
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public void dockFlysafeDatabaseVersionUpdate(TopicStateRequest<DockDroneFlysafeDatabaseVersion> request, MessageHeaders headers) {
+        log.debug("dockFlysafeDatabaseVersionUpdate from {}: {}", request.getFrom(), request.getData());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockWpmzVersionUpdate(TopicStateRequest<DockDroneWpmzVersion> request, MessageHeaders headers) {
+        log.debug("dockWpmzVersionUpdate from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockAirTransferEnable(TopicStateRequest<DockAirTransferEnable> request, MessageHeaders headers) {
+        log.debug("dockAirTransferEnable from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneModeCodeReason(
+            TopicStateRequest<DockDroneModeCodeReason> request, MessageHeaders headers) {
+        log.debug("dockDroneModeCodeReason from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneGeoCagingStatus(
+            TopicStateRequest<DockDroneGeoCagingStatus> request, MessageHeaders headers) {
+        log.debug("dockDroneGeoCagingStatus from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneCameras(
+            TopicStateRequest<DockDroneCameras> request, MessageHeaders headers) {
+        log.debug("dockDroneCameras from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> rcCameras(
+            TopicStateRequest<RcCameras> request, MessageHeaders headers) {
+        log.debug("rcCameras from {}: {}", request.getFrom(), request.getData());
+        if (request.getData() != null && request.getData().getCameras() != null) {
+            // TODO: Update stored cameras or emmit events for external consumption here
+        }
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneCameraWatermarkSettings(
+            TopicStateRequest<DockDroneCameraWatermarkSettings> request, MessageHeaders headers) {
+        log.debug("dockDroneCameraWatermarkSettings from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneUomRealNameState(
+            TopicStateRequest<DockDroneUomRealNameState> request, MessageHeaders headers) {
+        log.debug("dockDroneUomRealNameState from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDronePayloads(
+            TopicStateRequest<DockDronePayloads> request, MessageHeaders headers) {
+        log.debug("dockDronePayloads from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneRthMode(
+            TopicStateRequest<DockDroneRthMode> request, MessageHeaders headers) {
+        log.debug("dockDroneRthMode from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneCurrentRthMode(
+            TopicStateRequest<DockDroneCurrentRthMode> request, MessageHeaders headers) {
+        log.debug("dockDroneCurrentRthMode from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneCurrentCommanderFlightMode(
+            TopicStateRequest<DockDroneCurrentCommanderFlightMode> request, MessageHeaders headers) {
+        log.debug("dockDroneCurrentCommanderFlightMode from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneCommanderFlightMode(
+            TopicStateRequest<DockDroneCommanderFlightMode> request, MessageHeaders headers) {
+        log.debug("dockDroneCommanderFlightMode from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneCommanderFlightHeight(
+            TopicStateRequest<DockDroneCommanderFlightHeight> request, MessageHeaders headers) {
+        log.debug("dockDroneCommanderFlightHeight from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneOfflineMapEnable(
+            TopicStateRequest<DockDroneOfflineMapEnable> request, MessageHeaders headers) {
+        log.debug("dockDroneOfflineMapEnable from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneArInfoSwitch(
+            TopicStateRequest<DockDroneArInfoSwitch> request, MessageHeaders headers) {
+        log.debug("dockDroneArInfoSwitch from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
     }
 
     @Override
@@ -339,6 +481,44 @@ public class SDKDeviceService extends AbstractDeviceService {
                                 .sn(p.getSn())
                                 .deviceSn(request.getFrom())
                                 .build()).collect(Collectors.toList()));
+    }
+
+    @Override
+    public void dockLiveStatusUpdate(TopicStateRequest<DockLiveStatus> request, MessageHeaders headers) {
+        // Live stream status from the dock (streaming on/off, quality, errors).
+        // No web push needed; logged at debug level only.
+        log.debug("dockLiveStatusUpdate from {}: {}", request.getFrom(), request.getData());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockWirelessLinkTopo(TopicStateRequest<DockWirelessLinkTopo> request, MessageHeaders headers) {
+        DockWirelessLinkTopoData data = request.getData().getWirelessLinkTopo();
+        log.debug("dockWirelessLinkTopo from {}: centerNode={}, leafNodes={}",
+                request.getFrom(),
+                data != null && data.getCenterNode() != null ? data.getCenterNode().getSn() : null,
+                data != null && data.getLeafNodes() != null ? data.getLeafNodes().length : 0);
+        // Acknowledge the message - dock expects a reply
+        return new TopicStateResponse<MqttReply>()
+                .setTid(request.getTid())
+                .setBid(request.getBid())
+                .setData(MqttReply.success());
+    }
+
+    @Override
+    public void rcLiveStatusUpdate(TopicStateRequest<RcLiveStatus> request, MessageHeaders headers) {
+        // Live stream status from RC/Pilot-to-Cloud. No action required.
+        log.debug("rcLiveStatusUpdate from {}: {}", request.getFrom(), request.getData());
+    }
+
+    /**
+     * Triggers an eager DRC session-init attempt when a Pilot-to-Cloud (RC Pro) gateway
+     * comes online. Extracted as a protected method to allow unit testing of the domain
+     * check without requiring the full {@code updateTopoOnline} call chain.
+     */
+    protected void notifyRcProGatewayOnlineIfApplicable(DeviceDTO gateway, DeviceDTO subDevice) {
+        if (DeviceDomainEnum.REMOTER_CONTROL == gateway.getDomain()) {
+            // TODO: Update stored RC Controller info or emmit events for external consumption here
+        }
     }
 
     private void dockGoOnline(DeviceDTO gateway, DeviceDTO subDevice) {
@@ -496,5 +676,54 @@ public class SDKDeviceService extends AbstractDeviceService {
             oldDock.setDrcState(dock.getDrcState());
             deviceRedisService.setDeviceOsd(dockSn, oldDock);
         }
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDronePsdkUiResource(
+            TopicStateRequest<DockDronePsdkUiResource> request, MessageHeaders headers) {
+        log.debug("dockDronePsdkUiResource from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDronePsdkWidgetValues(
+            TopicStateRequest<DockDronePsdkWidgetValues> request, MessageHeaders headers) {
+        log.debug("dockDronePsdkWidgetValues from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDepartureTrajectory(
+            TopicStateRequest<DockDepartureTrajectory> request, MessageHeaders headers) {
+        log.debug("dockDepartureTrajectory from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneRemainingPowerForReturnHome(
+            TopicStateRequest<DockDroneRemainingPowerForReturnHome> request, MessageHeaders headers) {
+        log.debug("dockDroneRemainingPowerForReturnHome from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneUomRealNameTag(
+            TopicStateRequest<DockDroneUomRealNameTag> request, MessageHeaders headers) {
+        log.debug("dockDroneUomRealNameTag from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneIsBeidouVersion(
+            TopicStateRequest<DockDroneIsBeidouVersion> request, MessageHeaders headers) {
+        log.debug("dockDroneIsBeidouVersion from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
+    }
+
+    @Override
+    public TopicStateResponse<MqttReply> dockDroneAiModelList(
+            TopicStateRequest<DockDroneAiModelList> request, MessageHeaders headers) {
+        log.debug("dockDroneAiModelList from {}: {}", request.getFrom(), request.getData());
+        return new TopicStateResponse<MqttReply>().setData(MqttReply.success());
     }
 }

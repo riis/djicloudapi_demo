@@ -199,7 +199,17 @@ VALUES
 	(28, 0, 91, 0, 'M3D', NULL),
 	(29, 0, 91, 1, 'M3TD', NULL),
 	(30, 1, 80, 0, 'M3D Camera', NULL),
-	(31, 1, 81, 0, 'M3TD Camera', NULL);
+	(31, 1, 81, 0, 'M3TD Camera', NULL),
+	(32, 3, 3, 0, 'DJI Dock 3', NULL),
+	(33, 0, 100, 0, 'Matrice 4D', NULL),
+	(34, 0, 100, 1, 'Matrice 4TD', NULL),
+	(35, 1, 98, 0, 'M4D Camera', NULL),
+	(36, 1, 99, 0, 'M4TD Camera', NULL),
+	(37, 0, 99, 0, 'Matrice 4E', NULL),
+	(38, 0, 99, 1, 'Matrice 4T', NULL),
+	(39, 1, 88, 0, 'M4E Camera', NULL),
+	(40, 1, 89, 0, 'M4T Camera', NULL),
+	(41, 0, 103, 0, 'Matrice 400', NULL);
 
 
 /*!40000 ALTER TABLE `manage_device_dictionary` ENABLE KEYS */;

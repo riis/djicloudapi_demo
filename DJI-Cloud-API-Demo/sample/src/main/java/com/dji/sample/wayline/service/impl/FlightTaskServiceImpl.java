@@ -560,4 +560,10 @@ public class FlightTaskServiceImpl extends AbstractWaylineService implements IFl
         return new TopicEventsResponse<>();
     }
 
+    @Override
+    public TopicEventsResponse<MqttReply> returnHomeInfo(TopicEventsRequest<ReturnHomeInfo> request, MessageHeaders headers) {
+        log.debug("returnHomeInfo from {}: {}", request.getGateway(), request.getData());
+        return new TopicEventsResponse<MqttReply>().setData(MqttReply.success());
+    }
+
 }

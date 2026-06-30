@@ -44,7 +44,11 @@ public class ChannelName {
 
     public static final String INBOUND_STATE_RC_PAYLOAD_FIRMWARE = "inboundStateRcPayloadFirmware";
 
+    public static final String INBOUND_STATE_RC_CAMERAS = "inboundStateRcCameras";
+
     public static final String INBOUND_STATE_DOCK_DRONE_WPMZ_VERSION = "inboundStateDockDroneWpmzVersion";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_FLYSAFE_DATABASE_VERSION = "inboundStateDockDroneFlysafeDatabaseVersion";
 
     public static final String INBOUND_STATE_DOCK_DRONE_THERMAL_SUPPORTED_PALETTE_STYLE = "inboundStateDockDronePayload";
 
@@ -56,15 +60,47 @@ public class ChannelName {
 
     public static final String INBOUND_STATE_DOCK_DRONE_CURRENT_COMMANDER_FLIGHT_MODE = "inboundStateDockDroneCurrentCommanderFlightMode";
 
+    public static final String INBOUND_STATE_DOCK_DRONE_COMMANDER_FLIGHT_MODE = "inboundStateDockDroneCommanderFlightMode";
+
     public static final String INBOUND_STATE_DOCK_DRONE_COMMANDER_FLIGHT_HEIGHT = "inboundStateDockDroneCommanderFlightHeight";
 
     public static final String INBOUND_STATE_DOCK_DRONE_MODE_CODE_REASON = "inboundStateDockDroneModeCodeReason";
 
+    public static final String INBOUND_STATE_DOCK_DRONE_GEO_CAGING_STATUS = "inboundStateDockDroneGeoCagingStatus";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_CAMERAS = "inboundStateDockDroneCameras";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_UOM_REAL_NAME_STATE = "inboundStateDockDroneUomRealNameState";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_PAYLOADS = "inboundStateDockDronePayloads";
+
     public static final String INBOUND_STATE_DOCK_DRONE_OFFLINE_MAP_ENABLE = "inboundStateDockDroneOfflineMapEnable";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_AR_INFO_SWITCH = "inboundStateDockDroneArInfoSwitch";
 
     public static final String INBOUND_STATE_DOCK_AND_DRONE_DONGLE_INFOS = "inboundStateDockAndDroneDongleInfos";
 
     public static final String INBOUND_STATE_DOCK_SILENT_MODE = "inboundStateDockSilentMode";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_CAMERA_WATERMARK_SETTINGS = "inboundStateDockDroneCameraWatermarkSettings";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_PSDK_UI_RESOURCE = "inboundStateDockDronePsdkUiResource";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_PSDK_WIDGET_VALUES = "inboundStateDockDronePsdkWidgetValues";
+
+    public static final String INBOUND_STATE_DOCK_WIRELESS_LINK_TOPO = "inboundStateDockWirelessLinkTopo";
+
+    public static final String INBOUND_STATE_DOCK_DEPARTURE_TRAJECTORY = "inboundStateDockDepartureTrajectory";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_REMAINING_POWER_FOR_RETURN_HOME = "inboundStateDockDroneRemainingPowerForReturnHome";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_UOM_REAL_NAME_TAG = "inboundStateDockDroneUomRealNameTag";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_IS_BEIDOU_VERSION = "inboundStateDockDroneIsBeidouVersion";
+
+    public static final String INBOUND_STATE_DOCK_DRONE_AI_MODEL_LIST = "inboundStateDockDroneAiModelList";
+
+    public static final String INBOUND_STATE_DOCK_AIR_TRANSFER_ENABLE = "inboundStateDockAirTransferEnable";
 
 
     public static final String OUTBOUND_STATE = "outboundState";
@@ -177,5 +213,15 @@ public class ChannelName {
     public static final String INBOUND_DRC_UP_DELAY_INFO_PUSH = "inboundDrcUpDelayInfoPush";
 
     public static final String INBOUND_DRC_UP_OSD_INFO_PUSH = "inboundDrcUpOsdInfoPush";
+
+    public static final String INBOUND_DRC_UP_CAMERA_OSD_INFO_PUSH = "inboundDrcUpCameraOsdInfoPush";
+
+    public static final String INBOUND_DRC_UP_CAMERA_STATE_PUSH = "inboundDrcUpCameraStatePush";
+
+    public static final String INBOUND_DRC_UP_DRONE_STATE_PUSH = "inboundDrcUpDroneStatePush";
+
+    public static final String INBOUND_DRC_UP_CAMERA_PHOTO_INFO_PUSH = "inboundDrcUpCameraPhotoInfoPush";
+
+    public static final String INBOUND_EVENTS_CLOUD_CONTROL_AUTH_NOTIFY = "inboundEventsCloudControlAuthNotify";
 
 }

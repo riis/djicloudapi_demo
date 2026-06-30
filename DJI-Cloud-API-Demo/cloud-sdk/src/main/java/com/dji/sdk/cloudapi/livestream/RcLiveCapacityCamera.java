@@ -1,6 +1,7 @@
 package com.dji.sdk.cloudapi.livestream;
 
 import com.dji.sdk.cloudapi.device.PayloadIndex;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class RcLiveCapacityCamera {
 
     private List<RcLiveCapacityVideo> videoList;
 
+    @JsonProperty("availabe_camera_positions")
+    private List<Integer> availableCameraPositions;
+
+    @JsonProperty("camera_position")
+    private Integer cameraPosition;
+
     public RcLiveCapacityCamera() {
     }
 
@@ -39,6 +46,8 @@ public class RcLiveCapacityCamera {
                 ", coexistVideoNumberMax=" + coexistVideoNumberMax +
                 ", cameraIndex=" + cameraIndex +
                 ", videoList=" + videoList +
+                ", availableCameraPositions=" + availableCameraPositions +
+                ", cameraPosition=" + cameraPosition +
                 '}';
     }
 
@@ -75,6 +84,24 @@ public class RcLiveCapacityCamera {
 
     public RcLiveCapacityCamera setVideoList(List<RcLiveCapacityVideo> videoList) {
         this.videoList = videoList;
+        return this;
+    }
+
+    public List<Integer> getAvailableCameraPositions() {
+        return availableCameraPositions;
+    }
+
+    public RcLiveCapacityCamera setAvailableCameraPositions(List<Integer> availableCameraPositions) {
+        this.availableCameraPositions = availableCameraPositions;
+        return this;
+    }
+
+    public Integer getCameraPosition() {
+        return cameraPosition;
+    }
+
+    public RcLiveCapacityCamera setCameraPosition(Integer cameraPosition) {
+        this.cameraPosition = cameraPosition;
         return this;
     }
 }

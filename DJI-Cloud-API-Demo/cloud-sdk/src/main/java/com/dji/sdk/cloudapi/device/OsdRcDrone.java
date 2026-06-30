@@ -52,6 +52,8 @@ public class OsdRcDrone {
     @JsonProperty(PayloadModelConst.PAYLOAD_KEY)
     private List<RcDronePayload> payloads;
 
+    private List<OsdCamera> cameras;
+
     private Storage storage;
 
     private Integer heightLimit;
@@ -86,6 +88,7 @@ public class OsdRcDrone {
                 ", windSpeed=" + windSpeed +
                 ", positionState=" + positionState +
                 ", payloads=" + payloads +
+                ", cameras=" + cameras +
                 ", storage=" + storage +
                 ", heightLimit=" + heightLimit +
                 ", distanceLimitStatus=" + distanceLimitStatus +
@@ -120,6 +123,7 @@ public class OsdRcDrone {
         return this;
     }
 
+    /** Relative takeoff point altitude */
     public Float getElevation() {
         return elevation;
     }
@@ -156,6 +160,8 @@ public class OsdRcDrone {
         return this;
     }
 
+    /** Absolute height relative to the Earth ellipsoid height. Calculation is 
+     * height relative to takeoff point + ellipsoid height of takeoff point */
     public Float getHeight() {
         return height;
     }
@@ -270,6 +276,15 @@ public class OsdRcDrone {
 
     public OsdRcDrone setPayloads(List<RcDronePayload> payloads) {
         this.payloads = payloads;
+        return this;
+    }
+
+    public List<OsdCamera> getCameras() {
+        return cameras;
+    }
+
+    public OsdRcDrone setCameras(List<OsdCamera> cameras) {
+        this.cameras = cameras;
         return this;
     }
 

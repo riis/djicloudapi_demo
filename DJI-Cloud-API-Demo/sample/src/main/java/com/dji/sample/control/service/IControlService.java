@@ -53,6 +53,14 @@ public interface IControlService {
     HttpResultResponse takeoffToPoint(String sn, TakeoffToPointParam param);
 
     /**
+     * Send a DRC emergency landing command (obstacle-aware) to the drone.
+     * The dock SN must be provided. DRC mode should be active before calling this.
+     * @param sn  dock gateway SN
+     * @return
+     */
+    HttpResultResponse drcEmergencyLanding(String sn);
+
+    /**
      * Seize the control authority of the drone or the payload control authority.
      * @param sn
      * @param authority

@@ -13,6 +13,8 @@ import java.util.Arrays;
  */
 public enum TakeoffStatusEnum {
 
+    TAKEOFF_PREPARE("takeoff_prepare", "The drone is in the takeoff preparation phase."),
+
     TASK_READY("task_ready", "The drone is preparing to take off."),
 
     WAYLINE_PROGRESS("wayline_progress", "The drone is taking off."),
@@ -22,6 +24,8 @@ public enum TakeoffStatusEnum {
     WAYLINE_OK("wayline_ok", "The drone took off successfully."),
 
     WAYLINE_CANCEL("wayline_cancel", "The drone takeoff job has been cancelled."),
+
+    LANDING_PREPARE("landing_prepare", "The drone is in the landing preparation phase."),
 
     TASK_FINISH("task_finish", "The drone takeoff job is completed.");
 

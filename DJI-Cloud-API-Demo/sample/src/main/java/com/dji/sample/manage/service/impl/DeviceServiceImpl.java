@@ -149,7 +149,7 @@ public class DeviceServiceImpl implements IDeviceService {
         // If no information about this device exists in the cache, the drone is considered to be offline.
         Optional<DeviceDTO> deviceOpt = deviceRedisService.getDeviceOnline(gatewaySn);
         if (deviceOpt.isEmpty()) {
-            log.debug("The gateway is already offline.");
+            log.debug("The gateway {} is already offline.", gatewaySn);
             return;
         }
 
@@ -327,6 +327,7 @@ public class DeviceServiceImpl implements IDeviceService {
 
     /**
      * Save the device information and update the information directly if the device already exists.
+     * Handles race conditions where multiple threads try to insert the same device simultaneously.
      * @param device
      * @return
      */
@@ -334,7 +335,19 @@ public class DeviceServiceImpl implements IDeviceService {
         int count = mapper.selectCount(
                 new LambdaQueryWrapper<DeviceEntity>()
                         .eq(DeviceEntity::getDeviceSn, device.getDeviceSn()));
-        return count > 0 ? updateDevice(device) : saveDevice(device) > 0;
+        
+        if (count > 0) {
+            return updateDevice(device);
+        }
+        
+        try {
+            return saveDevice(device) > 0;
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            // Race condition: another thread inserted this device between our SELECT and INSERT
+            // Fall back to update instead
+            log.warn("Duplicate device {} detected during insert, retrying as update", device.getDeviceSn());
+            return updateDevice(device);
+        }
     }
 
     /**
@@ -460,7 +473,11 @@ public class DeviceServiceImpl implements IDeviceService {
         }
 
         pushDeviceOnlineTopo(device.getWorkspaceId(), gatewaySn, deviceSn);
-        subDeviceOnlineSubscribeTopic(SDKManager.getDeviceSDK(gatewaySn));
+        if (gatewaySn != null) {
+            subDeviceOnlineSubscribeTopic(SDKManager.getDeviceSDK(gatewaySn));
+        } else {
+            log.warn("bindDevice: skipping subDeviceOnlineSubscribeTopic for {} — gatewaySn is null (device not yet registered with SDKManager)", deviceSn);
+        }
         return true;
     }
 

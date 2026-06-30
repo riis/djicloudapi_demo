@@ -1,6 +1,7 @@
 package com.dji.sdk.cloudapi.livestream;
 
 import com.dji.sdk.cloudapi.device.PayloadIndex;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class DockLiveCapacityCamera {
 
     private List<DockLiveCapacityVideo> videoList;
 
+    @JsonProperty("availabe_camera_positions")
+    private List<Integer> availableCameraPositions;
+
+    @JsonProperty("camera_position")
+    private Integer cameraPosition;
+
     public DockLiveCapacityCamera() {
     }
 
@@ -39,6 +46,8 @@ public class DockLiveCapacityCamera {
                 ", coexistVideoNumberMax=" + coexistVideoNumberMax +
                 ", cameraIndex=" + cameraIndex +
                 ", videoList=" + videoList +
+                ", availableCameraPositions=" + availableCameraPositions +
+                ", cameraPosition=" + cameraPosition +
                 '}';
     }
 
@@ -75,6 +84,24 @@ public class DockLiveCapacityCamera {
 
     public DockLiveCapacityCamera setVideoList(List<DockLiveCapacityVideo> videoList) {
         this.videoList = videoList;
+        return this;
+    }
+
+    public List<Integer> getAvailableCameraPositions() {
+        return availableCameraPositions;
+    }
+
+    public DockLiveCapacityCamera setAvailableCameraPositions(List<Integer> availableCameraPositions) {
+        this.availableCameraPositions = availableCameraPositions;
+        return this;
+    }
+
+    public Integer getCameraPosition() {
+        return cameraPosition;
+    }
+
+    public DockLiveCapacityCamera setCameraPosition(Integer cameraPosition) {
+        this.cameraPosition = cameraPosition;
         return this;
     }
 }

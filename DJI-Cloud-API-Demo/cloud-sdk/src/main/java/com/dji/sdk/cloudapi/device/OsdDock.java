@@ -2,6 +2,7 @@ package com.dji.sdk.cloudapi.device;
 
 import com.dji.sdk.annotations.CloudSDKVersion;
 import com.dji.sdk.config.version.CloudSDKVersionEnum;
+import com.dji.sdk.cloudapi.property.SilentModeEnum;
 
 /**
  * @author sean
@@ -26,6 +27,10 @@ public class OsdDock {
 
     private Integer humidity;
 
+    private Double heading;
+
+    private Boolean homePositionIsValid;
+
     private Float latitude;
 
     private Float longitude;
@@ -43,6 +48,8 @@ public class OsdDock {
     private DockModeCodeEnum modeCode;
 
     private CoverStateEnum coverState;
+
+    private SilentModeEnum silentMode;
 
     private Boolean supplementLightState;
 
@@ -106,6 +113,8 @@ public class OsdDock {
                 ", environmentTemperature=" + environmentTemperature +
                 ", temperature=" + temperature +
                 ", humidity=" + humidity +
+                ", heading=" + heading +
+                ", homePositionIsValid=" + homePositionIsValid +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", height=" + height +
@@ -115,6 +124,7 @@ public class OsdDock {
                 ", storage=" + storage +
                 ", modeCode=" + modeCode +
                 ", coverState=" + coverState +
+                ", silentMode=" + silentMode +
                 ", supplementLightState=" + supplementLightState +
                 ", emergencyStopState=" + emergencyStopState +
                 ", airConditioner=" + airConditioner +
@@ -212,6 +222,24 @@ public class OsdDock {
         return this;
     }
 
+    public Double getHeading() {
+        return heading;
+    }
+
+    public OsdDock setHeading(Double heading) {
+        this.heading = heading;
+        return this;
+    }
+
+    public Boolean getHomePositionIsValid() {
+        return homePositionIsValid;
+    }
+
+    public OsdDock setHomePositionIsValid(Boolean homePositionIsValid) {
+        this.homePositionIsValid = homePositionIsValid;
+        return this;
+    }
+
     public Float getLatitude() {
         return latitude;
     }
@@ -290,6 +318,15 @@ public class OsdDock {
 
     public OsdDock setCoverState(CoverStateEnum coverState) {
         this.coverState = coverState;
+        return this;
+    }
+
+    public SilentModeEnum getSilentMode() {
+        return silentMode;
+    }
+
+    public OsdDock setSilentMode(SilentModeEnum silentMode) {
+        this.silentMode = silentMode;
         return this;
     }
 
