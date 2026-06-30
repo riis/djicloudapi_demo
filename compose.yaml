@@ -40,6 +40,8 @@ services:
         condition: service_started
       emqx:
         condition: service_healthy
+      minio:
+        condition: service_healthy
 
   emqx:
     image: emqx/emqx:v4.0.0
@@ -110,6 +112,12 @@ services:
       MINIO_ADDRESS: ":9000"
       MINIO_CONSOLE_ADDRESS: ":9001"
     command: minio server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 volumes:
   emqx_data:
