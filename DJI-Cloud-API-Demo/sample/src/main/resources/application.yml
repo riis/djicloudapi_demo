@@ -55,7 +55,7 @@ mqtt:
   DRC:
     protocol: WS # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
     host: ${DJI_MQTT_HOST_IP:-192.168.1.1}
-    port: ${DJI_MQTT_PORT:-1883}
+    port: ${DJI_MQTT_PORT:-8083}
     path: /mqtt
     username: JavaServer
     password: 123456
