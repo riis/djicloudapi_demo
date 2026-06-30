@@ -21,6 +21,8 @@ public enum Dock2ThingVersionEnum implements IThingVersion {
 
     ;
 
+    private static final Dock2ThingVersionEnum FALLBACK_VERSION = V1_3_1;
+
     private static final Logger log = LoggerFactory.getLogger(Dock2ThingVersionEnum.class);
 
     private final String thingVersion;
@@ -45,8 +47,8 @@ public enum Dock2ThingVersionEnum implements IThingVersion {
         return Arrays.stream(values()).filter(thingVersionEnum -> thingVersionEnum.thingVersion.equals(thingVersion))
                 .findAny().orElseGet(() -> {
                     log.warn("Unknown Dock 2 thing version: {}, falling back to latest supported version ({})",
-                            thingVersion, V1_3_1.getThingVersion());
-                    return V1_3_1;
+                            thingVersion, FALLBACK_VERSION.getThingVersion());
+                    return FALLBACK_VERSION;
                 });
     }
 }

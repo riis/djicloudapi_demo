@@ -30,6 +30,8 @@ public enum DroneThingVersionEnum implements IThingVersion {
 
     ;
 
+    private static final DroneThingVersionEnum FALLBACK_VERSION = V1_3_5;
+    
     private static final Logger log = LoggerFactory.getLogger(DroneThingVersionEnum.class);
 
     private final String thingVersion;
@@ -56,9 +58,8 @@ public enum DroneThingVersionEnum implements IThingVersion {
         if (opt.isPresent()) {
             return opt.get();
         }
-        // Fallback to latest version for backward compatibility
         log.warn("Unknown drone thing version: {}, falling back to latest supported version ({})",
-                thingVersion, V1_3_5.getThingVersion());
-        return V1_3_5;
+                thingVersion, FALLBACK_VERSION.getThingVersion());
+        return FALLBACK_VERSION;
     }
 }
