@@ -1,5 +1,6 @@
 package com.dji.sample.media.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +19,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MediaFileDTO {
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String fileId;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String fileName;
 
     private String filePath;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String objectKey;
 
     private String subFileType;
@@ -38,6 +42,7 @@ public class MediaFileDTO {
 
     private String fingerprint;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;
 
     private String jobId;

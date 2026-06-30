@@ -1,5 +1,6 @@
 package com.dji.sample.manage.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,10 @@ public class CapacityVideoDTO {
 
     private String id;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String index;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String type;
 
     private List<String> switchVideoTypes;
