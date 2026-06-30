@@ -150,9 +150,15 @@ public class ControlServiceImpl implements IControlService {
     }
 
     private void checkTakeoffCondition(String dockSn) {
-        Optional<DeviceDTO> dockOpt = deviceRedisService.getDeviceOnline(dockSn);
-        if (dockOpt.isEmpty() || DockModeCodeEnum.IDLE != deviceService.getDockMode(dockSn)) {
-            throw new RuntimeException("The current state does not support takeoff.");
+        if (!deviceRedisService.checkDeviceOnline(dockSn)) {
+            throw new RuntimeException("The dock is offline, please restart the dock.");
+        }
+        final var dockMode = deviceService.getDockMode(dockSn);
+        if (null == dockMode) {
+            throw new RuntimeException("The dock mode could not be determined, please restart if dock is now offline.");
+        }
+        if (DockModeCodeEnum.IDLE != dockMode) {
+            throw new RuntimeException(String.format("The current state %s does not support takeoff.", dockMode));
         }
 
         HttpResultResponse result = seizeAuthority(dockSn, DroneAuthorityEnum.FLIGHT, null);
