@@ -123,7 +123,7 @@ url:
 oss:
  enable: true
  provider: minio
- endpoint: http://${DJI_MQTT_HOST_IP:-192.168.1.1}:9000
+ endpoint: http://${DJI_MQTT_PUBLIC_HOST:-${DJI_MQTT_HOST}}:9000
  access-key: minioadmin
  secret-key: minioadmin
  bucket: cloud-bucket
