@@ -24,7 +24,9 @@ public enum DroneThingVersionEnum implements IThingVersion {
 
     V1_2_0("1.2.0", CloudSDKVersionEnum.V1_0_3),
 
-    V1_3_1("1.3.1", CloudSDKVersionEnum.V1_3_1),
+    V1_3_1("1.3.1", CloudSDKVersionEnum.V1_1_0),
+
+    V1_3_5("1.3.5", CloudSDKVersionEnum.V1_1_0),
 
     ;
 
@@ -55,8 +57,8 @@ public enum DroneThingVersionEnum implements IThingVersion {
             return opt.get();
         }
         // Fallback to latest version for backward compatibility
-        log.warn("Unknown drone thing version: {}, falling back to latest supported version ({})", 
-                thingVersion, V1_3_1.getThingVersion());
-        return V1_3_1;
+        log.warn("Unknown drone thing version: {}, falling back to latest supported version ({})",
+                thingVersion, V1_3_5.getThingVersion());
+        return V1_3_5;
     }
 }

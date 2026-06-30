@@ -61,7 +61,11 @@ public enum DeviceTypeEnum {
 
     DOCK2(2),
 
+    DOCK3(3),
+
     M3D(91),
+
+    M4D(100),
 
     M3D_CAMERA(80),
 
