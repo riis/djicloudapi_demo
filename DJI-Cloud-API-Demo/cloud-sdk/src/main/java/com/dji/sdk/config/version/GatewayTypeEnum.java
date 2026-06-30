@@ -17,6 +17,8 @@ public enum GatewayTypeEnum {
     DOCK(DeviceEnum.DOCK),
 
     DOCK2(DeviceEnum.DOCK2),
+
+    DOCK3(DeviceEnum.DOCK3),
     ;
 
     private final DeviceEnum[] gateway;

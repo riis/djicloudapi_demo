@@ -16,6 +16,8 @@ public enum CloudSDKVersionEnum {
     V1_0_2("1.0.2"),
 
     V1_0_3("1.0.3"),
+    
+    V1_1_0("1.1.0"),
 
     DEFAULT("1.0.3"),
 

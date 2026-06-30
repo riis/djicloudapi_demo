@@ -7,29 +7,25 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 /**
- * @author sean
- * @version 1.7
- * @date 2023/9/7
+ * @author jeff
+ * @version ?
+ * @date 2026/6/30
  */
-public enum Dock2ThingVersionEnum implements IThingVersion {
+public enum Dock3ThingVersionEnum implements IThingVersion {
 
-    V1_1_2("1.1.2", CloudSDKVersionEnum.V1_0_1),
-
-    V1_2_0("1.2.0", CloudSDKVersionEnum.V1_0_3),
-
-    V1_3_1("1.3.1", CloudSDKVersionEnum.V1_1_0),
+    V1_3_5("1.3.5", CloudSDKVersionEnum.V1_1_0),
 
     ;
 
-    private static final Dock2ThingVersionEnum FALLBACK_VERSION = V1_3_1;
+    private static final Dock3ThingVersionEnum FALLBACK_VERSION = V1_3_5;
 
-    private static final Logger log = LoggerFactory.getLogger(Dock2ThingVersionEnum.class);
+    private static final Logger log = LoggerFactory.getLogger(Dock3ThingVersionEnum.class);
 
     private final String thingVersion;
 
     private final CloudSDKVersionEnum cloudSDKVersion;
 
-    Dock2ThingVersionEnum(String thingVersion, CloudSDKVersionEnum cloudSDKVersion) {
+    Dock3ThingVersionEnum(String thingVersion, CloudSDKVersionEnum cloudSDKVersion) {
         this.thingVersion = thingVersion;
         this.cloudSDKVersion = cloudSDKVersion;
     }
@@ -43,10 +39,10 @@ public enum Dock2ThingVersionEnum implements IThingVersion {
         return cloudSDKVersion;
     }
 
-    public static Dock2ThingVersionEnum find(String thingVersion) {
+    public static Dock3ThingVersionEnum find(String thingVersion) {
         return Arrays.stream(values()).filter(thingVersionEnum -> thingVersionEnum.thingVersion.equals(thingVersion))
                 .findAny().orElseGet(() -> {
-                    log.warn("Unknown Dock 2 thing version: {}, falling back to latest supported version ({})",
+                    log.warn("Unknown Dock 3 thing version: {}, falling back to latest supported version ({})",
                             thingVersion, FALLBACK_VERSION.getThingVersion());
                     return FALLBACK_VERSION;
                 });

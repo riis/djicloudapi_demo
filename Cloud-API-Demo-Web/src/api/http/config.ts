@@ -6,6 +6,14 @@ function resolveHttpBaseURL (): string {
   return '/'
 }
 
+function resolvePilotApiHost (): string {
+  // For pilot/native application, we need an absolute URL (relative URLs cause IllegalArgumentException in Java URL)
+  if (configuredHost) return configuredHost
+  // Construct absolute URL from current window location
+  const loc = window.location
+  return `${loc.protocol}//${loc.host}`
+}
+
 function resolveWebsocketURL (): string {
   if (configuredHost) {
     // Normalize to ws(s) scheme based on configuredHost scheme
@@ -35,6 +43,7 @@ export const CURRENT_CONFIG = {
 
   // http
   baseURL: resolveHttpBaseURL(), // Prefer same-origin in dev to avoid CORS (use Vite proxy)
+  pilotApiHost: resolvePilotApiHost(), // Absolute URL for pilot/native module (required for Java URL constructor)
   websocketURL: resolveWebsocketURL(), // WebSocket URL aligned with http base
 
   // livestreaming

@@ -1,7 +1,6 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   frontend:
     image: node:lts-alpine
     volumes:
@@ -10,9 +9,9 @@ services:
       - "8080:8080"
     environment:
       - VITE_BACKEND_BASE_URL=http://backend:6789
-      - DJI_CLOUD_API_APP_ID=${VITE_DJI_CLOUD_API_APP_ID:-your-app-id}
-      - DJI_CLOUD_API_APP_KEY=${VITE_DJI_CLOUD_API_APP_KEY:-your-app-key}
-      - DJI_CLOUD_API_APP_LICENSE=${VITE_DJI_CLOUD_API_APP_LICENSE:-your-app-license}
+      - VITE_DJI_CLOUD_API_APP_ID=${DJI_CLOUD_API_APP_ID:?}
+      - VITE_DJI_CLOUD_API_APP_KEY=${DJI_CLOUD_API_APP_KEY:?}
+      - VITE_DJI_CLOUD_API_APP_LICENSE=${DJI_CLOUD_API_APP_LICENSE:?}
     command: sh -c "cd /app && yarn install && yarn serve"
     depends_on:
       - backend
@@ -29,17 +28,19 @@ services:
       - SPRING_DATASOURCE_DRUID_PASSWORD=rootpassword
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
-      - MQTT_BASIC_HOST=emqx
-      - MQTT_BASIC_PORT=1883
+      - MQTT_BASIC_HOST=${DJI_MQTT_HOST_IP:-emqx}
+      - MQTT_BASIC_PORT=${DJI_MQTT_PORT:-1883}
       - DJI_CLOUD_API_APP_ID=${DJI_CLOUD_API_APP_ID:-your-app-id}
       - DJI_CLOUD_API_APP_KEY=${DJI_CLOUD_API_APP_KEY:-your-app-key}
       - DJI_CLOUD_API_APP_LICENSE=${DJI_CLOUD_API_APP_LICENSE:-your-app-license}
     depends_on:
       mysql:
-        condition: service_started
+        condition: service_healthy
       redis:
         condition: service_started
       emqx:
+        condition: service_healthy
+      minio:
         condition: service_healthy
 
   emqx:
@@ -48,8 +49,9 @@ services:
     environment:
       EMQX_DASHBOARD__DEFAULT_USER__LOGIN: admin
       EMQX_DASHBOARD__DEFAULT_USER__PASSWORD: admin
+      EMQX_LISTENERS__TCP__DEFAULT__BIND: ${DJI_MQTT_PORT:-1883}
     ports:
-      - "1883:1883"
+      - "${DJI_MQTT_PORT:-1883}:1883"
       - "8081:8081"
       - "8083:8083"
       - "8883:8883"
@@ -73,6 +75,22 @@ services:
     volumes:
       - ./DJI-Cloud-API-Demo/sql/cloud_sample.sql:/docker-entrypoint-initdb.d/cloud_sample.sql
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-prootpassword",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
 
   redis:
     image: redis:7-alpine
@@ -89,11 +107,17 @@ services:
       - 9000:9000
       - 9001:9001
     environment:
-      MINIO_ROOT_USER: 'minioadmin'
-      MINIO_ROOT_PASSWORD: 'minioadmin'
-      MINIO_ADDRESS: ':9000'
-      MINIO_CONSOLE_ADDRESS: ':9001'
+      MINIO_ROOT_USER: "minioadmin"
+      MINIO_ROOT_PASSWORD: "minioadmin"
+      MINIO_ADDRESS: ":9000"
+      MINIO_CONSOLE_ADDRESS: ":9001"
     command: minio server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 volumes:
   emqx_data:

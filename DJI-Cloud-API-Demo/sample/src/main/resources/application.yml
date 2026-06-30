@@ -10,8 +10,8 @@ spring:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/cloud_sample?useSSL=false&allowPublicKeyRetrieval=true
-      username: root
-      password: rootpassword
+      username: cloud-sdk
+      password: your-password
       initial-size: 10
       min-idle: 10
       max-active: 20
@@ -45,17 +45,17 @@ mqtt:
   # BASIC parameters are required.
   BASIC:
     protocol: MQTT # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
-    host: 127.0.0.1
-    port: 1883
-    username: djibackend
-    password: djibackend
+    host: ${DJI_MQTT_HOST_IP:-192.168.1.1}
+    port: ${DJI_MQTT_PORT:-1883}
+    username: your-username
+    password: your-password
     client-id: 123456
     # If the protocol is ws/wss, this value is required.
     path:
   DRC:
     protocol: WS # @see com.dji.sample.component.mqtt.model.MqttProtocolEnum
-    host: Please enter your ip.
-    port: 8083
+    host: ${DJI_MQTT_HOST_IP:-192.168.1.1}
+    port: ${DJI_MQTT_PORT:-8083}
     path: /mqtt
     username: JavaServer
     password: 123456
@@ -115,7 +115,7 @@ url:
 oss:
  enable: true
  provider: minio
- endpoint: http://minio:9000
+ endpoint: http://${DJI_MQTT_HOST_IP:-192.168.1.1}:9000
  access-key: minioadmin
  secret-key: minioadmin
  bucket: cloud-bucket
@@ -146,11 +146,11 @@ livestream:
     agora:
       channel: Please enter the agora channel.
       token: Please enter the agora temporary token.
-      uid:  654321
+      uid: 654321
 
     # RTMP  Note: This IP is the address of the streaming server. If you want to see livestream on web page, you need to convert the RTMP stream to WebRTC stream.
     rtmp:
-      url: Please enter the rtmp access address.  # Example: 'rtmp://192.168.1.1/live/'
+      url: Please enter the rtmp access address. # Example: 'rtmp://192.168.1.1/live/'
     rtsp:
       username: Please enter the username.
       password: Please enter the password.

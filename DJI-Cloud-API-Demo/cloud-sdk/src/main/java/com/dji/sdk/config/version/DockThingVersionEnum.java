@@ -1,7 +1,8 @@
 package com.dji.sdk.config.version;
 
-import com.dji.sdk.exception.CloudSDKVersionException;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -21,6 +22,10 @@ public enum DockThingVersionEnum implements IThingVersion {
     V1_1_3("1.1.3", CloudSDKVersionEnum.V1_0_2),
 
     ;
+
+    private static final DockThingVersionEnum FALLBACK_VERSION = V1_1_3;
+
+    private static final Logger log = LoggerFactory.getLogger(DockThingVersionEnum.class);
 
     private final String thingVersion;
 
@@ -42,6 +47,10 @@ public enum DockThingVersionEnum implements IThingVersion {
 
     public static DockThingVersionEnum find(String thingVersion) {
         return Arrays.stream(values()).filter(thingVersionEnum -> thingVersionEnum.thingVersion.equals(thingVersion))
-                .findAny().orElseThrow(() -> new CloudSDKVersionException(thingVersion));
+                .findAny().orElseGet(() -> {
+                    log.warn("Unknown Dock thing version: {}, falling back to latest supported version ({})",
+                            thingVersion, FALLBACK_VERSION.getThingVersion());
+                    return FALLBACK_VERSION;
+                });
     }
 }
