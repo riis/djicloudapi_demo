@@ -1,5 +1,6 @@
 package com.dji.sdk.cloudapi.organization;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
  * @version 1.1
  * @date 2022/6/14
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BindStatusRequestDevice {
 
     @NotNull
@@ -18,13 +20,13 @@ public class BindStatusRequestDevice {
     @JsonProperty("is_device_bind_organization")
     private Boolean deviceBindOrganization;
 
-    @NotNull
+    //@NotNull
     private String organizationId;
 
-    @NotNull
+    //@NotNull
     private String organizationName;
 
-    @NotNull
+    //@NotNull
     private String deviceCallsign;
 
     public BindStatusRequestDevice() {

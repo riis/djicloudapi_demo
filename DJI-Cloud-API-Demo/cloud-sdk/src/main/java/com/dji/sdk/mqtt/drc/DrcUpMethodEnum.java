@@ -25,6 +25,14 @@ public enum DrcUpMethodEnum {
 
     OSD_INFO_PUSH("osd_info_push", ChannelName.INBOUND_DRC_UP_OSD_INFO_PUSH, new TypeReference<OsdInfoPush>() {}),
 
+    CAMERA_OSD_INFO_PUSH("drc_camera_osd_info_push", ChannelName.INBOUND_DRC_UP_CAMERA_OSD_INFO_PUSH, new TypeReference<DrcCameraOsdInfoPush>() {}),
+
+    CAMERA_STATE_PUSH("drc_camera_state_push", ChannelName.INBOUND_DRC_UP_CAMERA_STATE_PUSH, new TypeReference<DrcCameraStatePush>() {}),
+
+    DRONE_STATE_PUSH("drc_drone_state_push", ChannelName.INBOUND_DRC_UP_DRONE_STATE_PUSH, new TypeReference<DrcDroneStatePush>() {}),
+
+    CAMERA_PHOTO_INFO_PUSH("drc_camera_photo_info_push", ChannelName.INBOUND_DRC_UP_CAMERA_PHOTO_INFO_PUSH, new TypeReference<DrcCameraPhotoInfoPush>() {}),
+
     UNKNOWN("", ChannelName.DEFAULT, new TypeReference<>() {});
 
     private final String method;

@@ -33,6 +33,8 @@ public enum AirConditionerStateEnum {
 
     DEHUMIDIFICATION_PREPARATION(9),
 
+    SMART_TEMPERATURE_CONTROL(11),
+
     DISCONNECTED(32767),
     ;
 

@@ -51,6 +51,16 @@ public interface IWaylineFileService {
     Integer saveWaylineFile(String workspaceId, WaylineFileDTO metadata);
 
     /**
+     * Save the basic information of the wayline file and return the generated waylineId UUID.
+     * Unlike {@link #saveWaylineFile}, this method returns the UUID used to reference the file
+     * rather than the auto-increment row id, avoiding a subsequent lookup.
+     * @param workspaceId
+     * @param metadata
+     * @return the generated waylineId UUID, or empty if the insert failed
+     */
+    Optional<String> saveAndGetWaylineId(String workspaceId, WaylineFileDTO metadata);
+
+    /**
      * Updates whether the file is collected or not based on the passed parameters.
      * @param workspaceId
      * @param ids          wayline id
@@ -73,6 +83,14 @@ public interface IWaylineFileService {
      * @param waylineId
      */
     Boolean deleteByWaylineId(String workspaceId, String waylineId);
+
+    /**
+     * Look up the waylineId UUID for a file that was saved under the given OSS object key.
+     * @param workspaceId
+     * @param objectKey  OSS object key used when the file was saved
+     * @return the waylineId UUID, or empty if not found
+     */
+    Optional<String> getWaylineIdByObjectKey(String workspaceId, String objectKey);
 
     /**
      * Import kmz wayline file.

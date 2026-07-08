@@ -3,10 +3,13 @@ package com.dji.sample.storage.service.impl;
 import com.dji.sample.component.oss.model.OssConfiguration;
 import com.dji.sample.component.oss.service.impl.OssServiceContext;
 import com.dji.sample.storage.service.IStorageService;
+import com.dji.sdk.cloudapi.media.HighestPriorityUploadFlightTaskMedia;
 import com.dji.sdk.cloudapi.media.StorageConfigGet;
 import com.dji.sdk.cloudapi.media.api.AbstractMediaService;
 import com.dji.sdk.cloudapi.storage.StsCredentialsResponse;
 import com.dji.sdk.mqtt.MqttReply;
+import com.dji.sdk.mqtt.events.TopicEventsRequest;
+import com.dji.sdk.mqtt.events.TopicEventsResponse;
 import com.dji.sdk.mqtt.requests.TopicRequestsRequest;
 import com.dji.sdk.mqtt.requests.TopicRequestsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +41,12 @@ public class StorageServiceImpl extends AbstractMediaService implements IStorage
     @Override
     public TopicRequestsResponse<MqttReply<StsCredentialsResponse>> storageConfigGet(TopicRequestsRequest<StorageConfigGet> response, MessageHeaders headers) {
         return new TopicRequestsResponse<MqttReply<StsCredentialsResponse>>().setData(MqttReply.success(getSTSCredentials()));
+    }
+
+    @Override
+    public TopicEventsResponse<MqttReply> highestPriorityUploadFlightTaskMedia(
+            TopicEventsRequest<HighestPriorityUploadFlightTaskMedia> request, MessageHeaders headers) {
+        // Media service handles this; storage service does not.
+        return new TopicEventsResponse<MqttReply>().setData(MqttReply.success());
     }
 }

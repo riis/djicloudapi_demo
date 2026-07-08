@@ -30,6 +30,11 @@ public class CapacityCameraDTO {
 
     private String type;
 
+    private List<Integer> availableCameraPositions;
+
+    private Integer cameraPosition;
+
+
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private List<CapacityVideoDTO> videosList;
 }

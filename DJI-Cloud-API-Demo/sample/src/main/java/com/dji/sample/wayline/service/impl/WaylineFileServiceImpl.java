@@ -115,6 +115,21 @@ public class WaylineFileServiceImpl implements IWaylineFileService {
 
     @Override
     public Integer saveWaylineFile(String workspaceId, WaylineFileDTO metadata) {
+        WaylineFileEntity file = insertWaylineEntity(workspaceId, metadata);
+        return file != null ? file.getId() : -1;
+    }
+
+    @Override
+    public Optional<String> saveAndGetWaylineId(String workspaceId, WaylineFileDTO metadata) {
+        WaylineFileEntity file = insertWaylineEntity(workspaceId, metadata);
+        return file != null ? Optional.of(file.getWaylineId()) : Optional.empty();
+    }
+
+    /**
+     * Builds, populates and inserts a {@link WaylineFileEntity}.
+     * @return the inserted entity (with id and waylineId populated), or null if the insert failed
+     */
+    private WaylineFileEntity insertWaylineEntity(String workspaceId, WaylineFileDTO metadata) {
         WaylineFileEntity file = this.dtoConvertToEntity(metadata);
         file.setWaylineId(UUID.randomUUID().toString());
         file.setWorkspaceId(workspaceId);
@@ -131,7 +146,7 @@ public class WaylineFileServiceImpl implements IWaylineFileService {
             }
         }
         int insertId = mapper.insert(file);
-        return insertId > 0 ? file.getId() : insertId;
+        return insertId > 0 ? file : null;
     }
 
     @Override
@@ -156,6 +171,16 @@ public class WaylineFileServiceImpl implements IWaylineFileService {
                 .stream()
                 .map(WaylineFileEntity::getName)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<String> getWaylineIdByObjectKey(String workspaceId, String objectKey) {
+        return Optional.ofNullable(
+                mapper.selectOne(
+                        new LambdaQueryWrapper<WaylineFileEntity>()
+                                .eq(WaylineFileEntity::getWorkspaceId, workspaceId)
+                                .eq(WaylineFileEntity::getObjectKey, objectKey)))
+                .map(WaylineFileEntity::getWaylineId);
     }
 
     @Override

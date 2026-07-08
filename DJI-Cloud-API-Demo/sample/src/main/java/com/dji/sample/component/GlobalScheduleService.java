@@ -46,6 +46,7 @@ public class GlobalScheduleService {
                 if (null == device) {
                     return;
                 }
+                log.debug("Device {} is about to go offline, expire in {} seconds.", device.getDeviceSn(), expire);
                 if (DeviceDomainEnum.DRONE == device.getDomain()) {
                     deviceService.subDeviceOffline(key.substring(start));
                 } else {

@@ -80,7 +80,8 @@ public class WebSocketMessageServiceImpl implements IWebSocketMessageService {
     @Override
     public void sendBatch(String workspaceId, Integer userType, String bizCode, Object data) {
         if (!StringUtils.hasText(workspaceId)) {
-            throw new RuntimeException("Workspace ID does not exist.");
+            log.warn("Skipping WebSocket broadcast: workspace ID is empty (device may be unbound).");
+            return;
         }
         Collection<MyConcurrentWebSocketSession> sessions = Objects.isNull(userType) ?
                 webSocketManageService.getValueWithWorkspace(workspaceId) :

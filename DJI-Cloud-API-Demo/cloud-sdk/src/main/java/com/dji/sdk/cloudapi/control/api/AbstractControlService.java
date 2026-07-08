@@ -593,6 +593,18 @@ public abstract class AbstractControlService {
     }
 
     /**
+     * DRC-emergency landing (obstacle-aware). Sends drc_emergency_landing to the drone's
+     * DRC down topic. DRC mode should be active on the dock before calling this.
+     * @param gateway
+     */
+    @CloudSDKVersion(exclude = GatewayTypeEnum.RC)
+    public void emergencyLandDown(GatewayManager gateway) {
+        drcDownPublish.publish(
+                gateway.getGatewaySn(),
+                ControlMethodEnum.DRC_EMERGENCY_LANDING.getMethod());
+    }
+
+    /**
      * Drc up notification of drone emergency stop result
      * @param request  data
      * @param headers   The headers for a {@link Message}.
@@ -659,6 +671,47 @@ public abstract class AbstractControlService {
     @ServiceActivator(inputChannel = ChannelName.INBOUND_DRC_UP_OSD_INFO_PUSH)
     public void osdInfoPush(TopicDrcRequest<OsdInfoPush> request, MessageHeaders headers) {
         throw new UnsupportedOperationException("osdInfoPush not implemented");
+    }
+
+    /**
+     * DRC camera OSD information pushing (zoom factors per payload/lens).
+     * @param request  data
+     * @param headers   The headers for a {@link Message}.
+     */
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_DRC_UP_CAMERA_OSD_INFO_PUSH)
+    public void cameraOsdInfoPush(TopicDrcRequest<DrcCameraOsdInfoPush> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("cameraOsdInfoPush not implemented");
+    }
+
+    /**
+     * DRC camera state push — reports the currently active camera lens/mode during a DRC session.
+     * Use {@code payloadIndex} to track which lens is selected.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_DRC_UP_CAMERA_STATE_PUSH)
+    public void cameraStatePush(TopicDrcRequest<DrcCameraStatePush> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("cameraStatePush not implemented");
+    }
+
+    /**
+     * DRC drone state push — high-frequency position and attitude update during a DRC session.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_DRC_UP_DRONE_STATE_PUSH)
+    public void droneStatePush(TopicDrcRequest<DrcDroneStatePush> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("droneStatePush not implemented");
+    }
+
+    /**
+     * DRC camera photo info push — published after each photo capture during a DRC session.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_DRC_UP_CAMERA_PHOTO_INFO_PUSH)
+    public void cameraPhotoInfoPush(TopicDrcRequest<DrcCameraPhotoInfoPush> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("cameraPhotoInfoPush not implemented");
     }
 
 

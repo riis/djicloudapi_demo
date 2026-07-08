@@ -5,6 +5,7 @@ package com.dji.sdk.cloudapi.control;
  * @version 1.7
  * @date 2023/6/29
  */
+// Per DJI Docs this is now abandoned 
 public class DroneControlResponse {
 
     private Long seq;

@@ -4,6 +4,7 @@ import com.dji.sdk.annotations.CloudSDKVersion;
 import com.dji.sdk.cloudapi.device.*;
 import com.dji.sdk.cloudapi.property.DockDroneCommanderFlightHeight;
 import com.dji.sdk.cloudapi.property.DockDroneCommanderModeLostAction;
+import com.dji.sdk.cloudapi.property.DockDroneOfflineMapEnable;
 import com.dji.sdk.cloudapi.property.DockDroneRthMode;
 import com.dji.sdk.config.version.CloudSDKVersionEnum;
 import com.dji.sdk.config.version.GatewayTypeEnum;
@@ -142,6 +143,18 @@ public class AbstractDeviceService {
     }
 
     /**
+     * Wireless link topology state update from dock.
+     * The dock sends this with need_reply=true, so implementations must return a success reply.
+     * @param request  data
+     * @param headers   The headers for a {@link Message}.
+     * @return success reply
+     */
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_WIRELESS_LINK_TOPO, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockWirelessLinkTopo(TopicStateRequest<DockWirelessLinkTopo> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockWirelessLinkTopo not implemented");
+    }
+
+    /**
      * Live status source update for remote control and drone
      * @param request  data
      * @param headers   The headers for a {@link Message}.
@@ -163,12 +176,36 @@ public class AbstractDeviceService {
 
     /**
      * Wpmz firmware version update for drone
+     * The drone sends this with need_reply=true, so implementations must return a success reply.
      * @param request  data
      * @param headers   The headers for a {@link Message}.
+     * @return success reply
      */
-    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_WPMZ_VERSION)
-    public void dockWpmzVersionUpdate(TopicStateRequest<DockDroneWpmzVersion> request, MessageHeaders headers) {
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_WPMZ_VERSION, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockWpmzVersionUpdate(TopicStateRequest<DockDroneWpmzVersion> request, MessageHeaders headers) {
         throw new UnsupportedOperationException("dockWpmzVersionUpdate not implemented");
+    }
+
+    /**
+     * Air transfer (media upload) enabled state.
+     * The dock sends this with need_reply=true, so implementations must return a success reply.
+     * @param request  data
+     * @param headers   The headers for a {@link Message}.
+     * @return success reply
+     */
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_AIR_TRANSFER_ENABLE, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockAirTransferEnable(TopicStateRequest<DockAirTransferEnable> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockAirTransferEnable not implemented");
+    }
+
+    /**
+     * Flysafe database version reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_FLYSAFE_DATABASE_VERSION)
+    public void dockFlysafeDatabaseVersionUpdate(TopicStateRequest<DockDroneFlysafeDatabaseVersion> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockFlysafeDatabaseVersionUpdate not implemented");
     }
 
     /**
@@ -227,6 +264,17 @@ public class AbstractDeviceService {
     }
 
     /**
+     * Configured to-point flight mission mode for the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_COMMANDER_FLIGHT_MODE, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneCommanderFlightMode(TopicStateRequest<DockDroneCommanderFlightMode> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneCommanderFlightMode not implemented");
+    }
+
+    /**
      * Relative to (airport) takeoff point altitude.
      * ALT.
      * @param request  data
@@ -249,6 +297,21 @@ public class AbstractDeviceService {
         throw new UnsupportedOperationException("dockDroneModeCodeReason not implemented");
     }
 
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_GEO_CAGING_STATUS, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneGeoCagingStatus(TopicStateRequest<DockDroneGeoCagingStatus> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneGeoCagingStatus not implemented");
+    }
+
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_CAMERAS, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneCameras(TopicStateRequest<DockDroneCameras> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneCameras not implemented");
+    }
+
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_RC_CAMERAS, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> rcCameras(TopicStateRequest<RcCameras> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("rcCameras not implemented");
+    }
+
     /**
      * 4g dongle information
      * @param request  data
@@ -269,6 +332,138 @@ public class AbstractDeviceService {
     @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_SILENT_MODE, outputChannel = ChannelName.OUTBOUND_STATE)
     public TopicStateResponse<MqttReply> dockSilentMode(TopicStateRequest<DockSilentMode> request, MessageHeaders headers) {
         throw new UnsupportedOperationException("dockSilentMode not implemented");
+    }
+
+    /**
+     * Whether offline map is enabled on the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_OFFLINE_MAP_ENABLE, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneOfflineMapEnable(TopicStateRequest<DockDroneOfflineMapEnable> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneOfflineMapEnable not implemented");
+    }
+
+    /**
+     * AR info switch state reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_AR_INFO_SWITCH, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneArInfoSwitch(TopicStateRequest<DockDroneArInfoSwitch> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneArInfoSwitch not implemented");
+    }
+
+    /**
+     * UOM real-name authentication state reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_UOM_REAL_NAME_STATE, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneUomRealNameState(TopicStateRequest<DockDroneUomRealNameState> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneUomRealNameState not implemented");
+    }
+
+    /**
+     * Payload devices attached to the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_PAYLOADS, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDronePayloads(TopicStateRequest<DockDronePayloads> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDronePayloads not implemented");
+    }
+
+    /**
+     * Camera watermark settings reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_CAMERA_WATERMARK_SETTINGS, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneCameraWatermarkSettings(TopicStateRequest<DockDroneCameraWatermarkSettings> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneCameraWatermarkSettings not implemented");
+    }
+
+    /**
+     * PSDK UI resource state reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_PSDK_UI_RESOURCE, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDronePsdkUiResource(TopicStateRequest<DockDronePsdkUiResource> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDronePsdkUiResource not implemented");
+    }
+
+    /**
+     * PSDK widget values reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_PSDK_WIDGET_VALUES, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDronePsdkWidgetValues(TopicStateRequest<DockDronePsdkWidgetValues> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDronePsdkWidgetValues not implemented");
+    }
+
+    /**
+     * Departure trajectory state reported by Dock 3.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DEPARTURE_TRAJECTORY, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDepartureTrajectory(TopicStateRequest<DockDepartureTrajectory> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDepartureTrajectory not implemented");
+    }
+
+    /**
+     * Remaining battery power for return-to-home reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_REMAINING_POWER_FOR_RETURN_HOME, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneRemainingPowerForReturnHome(TopicStateRequest<DockDroneRemainingPowerForReturnHome> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneRemainingPowerForReturnHome not implemented");
+    }
+
+    /**
+     * UOM real-name verification tag reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_UOM_REAL_NAME_TAG, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneUomRealNameTag(TopicStateRequest<DockDroneUomRealNameTag> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneUomRealNameTag not implemented");
+    }
+
+    /**
+     * Whether the drone is using a Beidou-specific firmware version.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_IS_BEIDOU_VERSION, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneIsBeidouVersion(TopicStateRequest<DockDroneIsBeidouVersion> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneIsBeidouVersion not implemented");
+    }
+
+    /**
+     * AI model list reported by the drone.
+     * @param request  data
+     * @param headers  The headers for a {@link Message}.
+     */
+    @CloudSDKVersion(since = CloudSDKVersionEnum.V1_0_0)
+    @ServiceActivator(inputChannel = ChannelName.INBOUND_STATE_DOCK_DRONE_AI_MODEL_LIST, outputChannel = ChannelName.OUTBOUND_STATE)
+    public TopicStateResponse<MqttReply> dockDroneAiModelList(TopicStateRequest<DockDroneAiModelList> request, MessageHeaders headers) {
+        throw new UnsupportedOperationException("dockDroneAiModelList not implemented");
     }
 
 }

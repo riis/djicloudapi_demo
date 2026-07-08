@@ -23,6 +23,8 @@ public enum DeviceSubTypeEnum {
 
     TWO(2),
 
+    THREE(3),
+
     _65535(65535);
 
     private final int subType;

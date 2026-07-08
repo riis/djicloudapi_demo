@@ -120,6 +120,14 @@ public enum WaylineErrorCodeEnum implements IServicesErrorCode, IEventsErrorCode
 
     SETTING_RTH_MODE_FAILED(316031, "Failed to set return home mode. Please try again."),
 
+    OBTAIN_BATTERY_DATA_TIMEOUT(316032, "Obtaining battery data timed out. Try again later or restart aircraft and try again."),
+
+    BATTERY_CYCLE_LIMIT_APPROACHING(316033, "Battery approaching cycle count limit. Task stopped to ensure flight safety. Changing battery recommended."),
+
+    FIRMWARE_VERSION_MISMATCH(316034, "Unable to take off. Aircraft and dock firmware versions do not match. Update firmware and try again."),
+
+    DISTRIBUTE_ENTRY_EXIT_ROUTE_FAILED(316035, "Failed to distribute entry/exit route. Make sure firmware is up to date and distribute task again. Contact DJI support if issue persists."),
+
     LOW_POWER_LANDING_OUTSIDE(316050, "The aircraft has landed outside the dock due to low battery. Please check immediately whether the aircraft has landed safely and return the aircraft to the dock."),
 
     TASK_ABNORMAL_LANDING_OUTSIDE(316051, "The wayline task is abnormal, the aircraft landed outside the dock, please check immediately whether the aircraft has landed safely and return the aircraft to the dock."),

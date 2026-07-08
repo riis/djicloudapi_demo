@@ -45,6 +45,10 @@ public enum DeviceTypeEnum {
 
     H20N(61),
 
+    H30(82),
+
+    H30T(83),
+
     DOCK_CAMERA(165),
 
     L1(90742),
@@ -67,11 +71,33 @@ public enum DeviceTypeEnum {
 
     M3D(91),
 
-    M4D(100),
-
     M3D_CAMERA(80),
 
     M3TD_CAMERA(81),
+
+    M3D_VISION_ASSIST(176),
+
+    M3TA_CAMERA(129),
+
+    M4E_CAMERA(88),
+
+    M4T_CAMERA(89),
+
+    M4D_CAMERA(98),
+
+    M4TD_CAMERA(99),
+
+    M4E_AIRCRAFT(99),
+
+    M4T_AIRCRAFT(99),
+
+    M4D_AIRCRAFT(100),
+
+    M4TD_AIRCRAFT(100),
+
+    MATRICE_400(103),
+
+    RC_PLUS_2(174),
     ;
 
     private final int type;

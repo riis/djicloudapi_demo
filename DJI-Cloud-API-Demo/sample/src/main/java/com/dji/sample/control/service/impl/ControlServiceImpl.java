@@ -75,6 +75,7 @@ public class ControlServiceImpl implements IControlService {
                 mapper.convertValue(Objects.nonNull(param) ? param : new Object(), controlMethodEnum.getClazz())
                 : new RemoteDebugHandler();
         if (!handler.canPublish(sn)) {
+            log.warn("Debug command {} cannot be published for dock SN {} with param {}", controlMethodEnum, sn, param);
             throw new RuntimeException("The current state of the dock does not support this function.");
         }
         return handler;
@@ -117,7 +118,9 @@ public class ControlServiceImpl implements IControlService {
 
         DroneModeCodeEnum deviceMode = deviceService.getDeviceMode(dockOpt.get().getChildDeviceSn());
         if (DroneModeCodeEnum.MANUAL != deviceMode) {
-            throw new RuntimeException("The current state of the drone does not support this function, please try again later.");
+            log.warn("Drone is not in MANUAL mode, current mode: {}. Fly-to-point may not be supported.", deviceMode);
+            throw new RuntimeException(
+                    "The current state of the drone does not support this function, please try again later.");
         }
 
         HttpResultResponse result = seizeAuthority(dockSn, DroneAuthorityEnum.FLIGHT, null);
@@ -185,6 +188,28 @@ public class ControlServiceImpl implements IControlService {
     }
 
     @Override
+    public HttpResultResponse drcEmergencyLanding(String sn) {
+        boolean isExist = deviceRedisService.checkDeviceOnline(sn);
+        if (!isExist) {
+            return HttpResultResponse.error("The dock is offline.");
+        }
+        try {
+            abstractControlService.emergencyLandDown(SDKManager.getDeviceSDK(sn));
+        } catch (Exception e) {
+            log.error("Exception while sending drc_emergency_landing command: ", e);
+            return HttpResultResponse.error("Exception while sending land command: " + e.getMessage());
+        }
+        return HttpResultResponse.success();
+    }
+
+    /**
+     * Attempts to seize drone authority (FLIGHT or PAYLOAD).
+     * @param sn dock SN
+     * @param authority type of authority to seize (FLIGHT or PAYLOAD)
+     * @param param for PAYLOAD authority, must include payload index; ignored for FLIGHT but for PAYLOAD, param must not be null and must provide a payload index.
+     * @return success response if authority is already held or successfully seized; error response with message
+     */
+    @Override
     public HttpResultResponse seizeAuthority(String sn, DroneAuthorityEnum authority, DronePayloadParam param) {
         TopicServicesResponse<ServicesReplyData> response;
         switch (authority) {
@@ -192,9 +217,18 @@ public class ControlServiceImpl implements IControlService {
                 if (deviceService.checkAuthorityFlight(sn)) {
                     return HttpResultResponse.success();
                 }
-                response = abstractControlService.flightAuthorityGrab(SDKManager.getDeviceSDK(sn));
+                try {
+                    response = abstractControlService.flightAuthorityGrab(SDKManager.getDeviceSDK(sn));
+                } catch (Exception e) {
+                    log.error("Failed to seize flight authority. sn={}", sn, e);
+                    return HttpResultResponse.error("Failed to seize flight authority: " + e.getMessage());
+                }
                 break;
             case PAYLOAD:
+                if (param == null || param.getPayloadIndex() == null) {
+                    log.warn("seizeAuthority called for PAYLOAD but param or payloadIndex is null. sn={}, param={}", sn, param);
+                    return HttpResultResponse.error(CloudSDKErrorEnum.INVALID_PARAMETER);
+                }
                 if (checkPayloadAuthority(sn, param.getPayloadIndex())) {
                     return HttpResultResponse.success();
                 }
@@ -206,8 +240,10 @@ public class ControlServiceImpl implements IControlService {
         }
 
         ServicesReplyData serviceReply = response.getData();
-        return serviceReply.getResult().isSuccess() ?
-                HttpResultResponse.success()
+        if (serviceReply == null || serviceReply.getResult() == null) {
+            return HttpResultResponse.error("Failed to seize authority: empty device response");
+        }
+        return serviceReply.getResult().isSuccess() ? HttpResultResponse.success()
                 : HttpResultResponse.error(serviceReply.getResult());
     }
 
